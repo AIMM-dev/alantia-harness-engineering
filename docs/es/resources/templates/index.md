@@ -72,13 +72,13 @@ El registro de progreso. Cada sesión escribe en este archivo, y cada sesión nu
 - **Estado Verificado Actual** — la única fuente de verdad sobre dónde está el proyecto
   - `Repository root directory` — dónde vive el proyecto
   - `Standard startup path` — el comando para poner en marcha el proyecto
-  - `Standard verification path` — el comando para ejecutar los tests
+  - `Standard verification path` — el comando para ejecutar las pruebas
   - `Highest priority unfinished feature` — en qué debería trabajar la próxima sesión
   - `Current blocker` — cualquier cosa que esté atascada
 - **Registro de Sesión** — una entrada por sesión
   - `Goal` — lo que planeabas hacer
   - `Completed` — lo que realmente se hizo
-  - `Verification run` — qué tests se ejecutaron
+  - `Verification run` — qué pruebas se ejecutaron
   - `Evidence recorded` — qué prueba se capturó
   - `Commits` — qué se commiteó
   - `Known risks` — qué podría estar roto
@@ -198,7 +198,7 @@ Una instantánea de calidad que califica cada dominio de producto y capa arquite
 
 **Qué califica:**
 
-- **Dominios de producto** (ej., importación de documentos, flujo de P&R, indexación): cada dominio recibe una calificación (A-D) en estado de verificación, legibilidad del agente, estabilidad de tests y brechas clave
+- **Dominios de producto** (ej., importación de documentos, flujo de P&R, indexación): cada dominio recibe una calificación (A-D) en estado de verificación, legibilidad del agente, estabilidad de pruebas y brechas clave
 - **Capas arquitectónicas** (ej., proceso principal, preload, renderer, servicios): cada capa recibe una calificación para enforcement de límites y legibilidad del agente
 
 **Por qué importa:**

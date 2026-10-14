@@ -4,4 +4,4 @@ Usa esta carpeta para ejemplos de:
 
 - archivos de instrucciones monolíticos
 - puntos de entrada cortos
-- patrones de divulgación progresiva (progressive disclosure)
+- patrones de divulgación progresiva (divulgación progresiva)

@@ -1,17 +1,15 @@
-[中文版本 →](../../../zh/lectures/lecture-10-why-end-to-end-testing-changes-results/)
-
-> Code examples for this lecture: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/es/lectures/lecture-10-why-end-to-end-testing-changes-results/code/)
-> Hands-on practice: [Project 05. Let the agent verify its own work](./../../projects/project-05-grounded-qa-verification/index.md)
+> Code examples for this lecture: [code/](https://github.com/AIMM-dev/alantia-harness-engineering/blob/main/docs/es/lectures/lecture-10-why-end-to-end-testing-changes-results/code/)
+> Proyecto práctico: [Proyecto 05. Haz que el agente verifique su propio trabajo](./../../projects/project-05-grounded-qa-verification/index.md)
 
 # Lección 10. Solo las pruebas end-to-end son verificación real
 
 > Guía de ingeniería: los umbrales son valores didácticos ajustables, no límites demostrados. Los tokens dependen del tokenizador y del contenido, no solo de las líneas.
 
-Le pides al agent que añada una funcionalidad de exportación de archivos a una aplicación Electron. Escribe el componente del proceso de render, el preload script y la lógica de la capa de servicio. Las pruebas unitarias de cada componente pasan perfectamente. El agent dice: "Ya está." Cuando realmente haces clic en el botón de exportación—el formato de la ruta del archivo es incorrecto, la barra de progreso no se actualiza, y exportar archivos grandes causa una fuga de memoria. Cinco defectos en los límites de componentes, y las pruebas unitarias no detectaron ni uno solo.
+Le pides al agente que añada una funcionalidad de exportación de archivos a una aplicación Electron. Escribe el componente del proceso de render, el preload script y la lógica de la capa de servicio. Las pruebas unitarias de cada componente pasan perfectamente. El agente dice: "Ya está." Cuando realmente haces clic en el botón de exportación—el formato de la ruta del archivo es incorrecto, la barra de progreso no se actualiza, y exportar archivos grandes causa una fuga de memoria. Cinco defectos en los límites de componentes, y las pruebas unitarias no detectaron ni uno solo.
 
 Es como un ensayo de coro—cada parte vocal suena perfecta cuando se canta individualmente, pero cuando cantan juntos, las sopranos van medio tiempo más rápido que los bajos, y el acompañamiento está un semitono desfasado de la melodía principal. Cada parte es "correcta" por sí sola, pero el conjunto está desafinado.
 
-La Pirámide de Testing de Google nos dice: un gran número de pruebas unitarias son la base, pero si te detienes ahí, perderás sistemáticamente los problemas de interacción entre componentes. Para los agentes de codificación con IA, este problema es aún más grave—los agentes tienden a ejecutar solo las pruebas más rápidas y luego declarar la finalización. **Solo las pruebas end-to-end pueden demostrar que no existen defectos a nivel de sistema.**
+La Pirámide de Pruebas de Google nos dice: un gran número de pruebas unitarias son la base, pero si te detienes ahí, perderás sistemáticamente los problemas de interacción entre componentes. Para los agentes de codificación con IA, este problema es aún más grave—los agentes tienden a ejecutar solo las pruebas más rápidas y luego declarar la finalización. **Solo las pruebas end-to-end pueden demostrar que no existen defectos a nivel de sistema.**
 
 ## Los puntos ciegos de las pruebas unitarias
 
@@ -27,36 +25,36 @@ La filosofía de diseño de las pruebas unitarias es el aislamiento—mockear de
 
 ## Las pruebas end-to-end no solo cambian los resultados, cambian el comportamiento
 
-Esto es algo que muchas personas no logran comprender: cuando un agent sabe que su trabajo será sometido a pruebas end-to-end, su comportamiento de codificación cambia.
+Esto es algo que muchas personas no logran comprender: cuando un agente sabe que su trabajo será sometido a pruebas end-to-end, su comportamiento de codificación cambia.
 
 1. **Considerar las interacciones entre componentes**: Mientras escribe código, pensará en "cómo se conecta esta interfaz con el upstream", en lugar de enfocarse solo en una única función. Así como saber que eventualmente cantarán juntos, prestarás atención a las otras partes vocales durante la práctica.
-2. **Respetar los límites de la arquitectura**: En sistemas con restricciones arquitectónicas, las pruebas end-to-end obligan al agent a adherirse a las reglas de límites. Como una partitura marcada con "crescendo aquí", tienes que seguirla.
-3. **Manejar rutas de error**: Las pruebas end-to-end generalmente incluyen escenarios de falla, obligando al agent a considerar el manejo de excepciones. Es como simular "qué pasaría si el micrófono muriera repentinamente" durante el ensayo, para que sepas qué hacer.
+2. **Respetar los límites de la arquitectura**: En sistemas con restricciones arquitectónicas, las pruebas end-to-end obligan al agente a adherirse a las reglas de límites. Como una partitura marcada con "crescendo aquí", tienes que seguirla.
+3. **Manejar rutas de error**: Las pruebas end-to-end generalmente incluyen escenarios de falla, obligando al agente a considerar el manejo de excepciones. Es como simular "qué pasaría si el micrófono muriera repentinamente" durante el ensayo, para que sepas qué hacer.
 
-## Pirámide de testing y promoción de retroalimentación de revisiones
+## Pirámide de pruebas y promoción de retroalimentación de revisiones
 
 ```mermaid
 flowchart TB
-    subgraph Unit["Unit tests only check isolated parts"]
-    U1["Renderer tests"]
-    U2["Preload tests"]
-    U3["Service tests"]
+    subgraph Unit["Las pruebas unitarias comprueban partes aisladas"]
+    U1["Pruebas del renderizador"]
+    U2["Pruebas de precarga"]
+    U3["Pruebas de servicios"]
     end
 
-    subgraph E2E["E2E runs through the real system"]
-    R["Click renderer button"] --> P["Preload bridge"]
-    P --> S["Service layer"]
-    S --> F["File System / OS"]
-    F --> Result["Actual exported file"]
+    subgraph E2E["E2E recorre el sistema real"]
+    R["Pulsar el botón de la interfaz"] --> P["Puente de precarga"]
+    P --> S["Capa de servicios"]
+    S --> F["Sistema de archivos / SO"]
+    F --> Result["Archivo exportado real"]
     end
 ```
 
 ```mermaid
 flowchart LR
-    Review["Review feedback:<br/>renderer cannot import fs directly"] --> Rule["Add a direct fs import check"]
-    Rule --> Message["Tell agent in error message<br/>to move file access to preload"]
-    Message --> Harness["Add this check to harness"]
-    Harness --> Stronger["Will fail immediately next time"]
+    Review["Observación de la revisión:<br/>el renderizador no puede importar fs directamente"] --> Rule["Añadir una comprobación de importaciones directas de fs"]
+    Rule --> Message["Indicar al agente en el mensaje de error<br/>que mueva el acceso a archivos a preload"]
+    Message --> Harness["Añadir esta comprobación al harness"]
+    Harness --> Stronger["El próximo intento fallará de inmediato"]
 ```
 
 En las prácticas de ingeniería de Codex, OpenAI enfatiza: **los mensajes de error escritos para agentes deben incluir instrucciones de corrección.** No simplemente escribas `"Direct filesystem access in renderer"`; escribe `"Direct filesystem access in renderer. All file operations must go through the preload bridge. Move this call to preload/file-ops.ts and invoke it via window.api."` Esto convierte las reglas arquitectónicas en un bucle de autocorrección. Como un director de coro que no solo dice "cantaste mal eso", sino que dice "estuviste medio tiempo rápido aquí, escucha el ritmo de los altos, y entra en el compás 32."
@@ -104,7 +102,7 @@ Cada restricción arquitectónica debe tener una prueba o regla de lint correspo
 grep -r "require('fs')" src/renderer/ && exit 1 || echo "OK: no direct fs access in renderer"
 ```
 
-### 3. Diseñar mensajes de error orientados al agent
+### 3. Diseñar mensajes de error orientados al agente
 
 Los mensajes de falla deben contener tres elementos: qué salió mal, por qué, y cómo solucionarlo:
 
@@ -116,7 +114,7 @@ FIX: Move file operations to src/preload/file-ops.ts and call via window.api.rea
 
 ### 4. Establecer un proceso de promoción de retroalimentación de revisiones
 
-Cada vez que se encuentre un nuevo tipo de error del agent durante una revisión de código, conviértelo en una verificación automatizada. Un mes después, tu harness será significativamente más fuerte que al inicio del mes. Es como las notas de ensayo de un coro—registrar los problemas encontrados en cada ensayo para poder verificarlos antes del siguiente. Con el tiempo, los errores comunes disminuyen, y la música se vuelve más armoniosa.
+Cada vez que se encuentre un nuevo tipo de error del agente durante una revisión de código, conviértelo en una verificación automatizada. Un mes después, tu harness será significativamente más fuerte que al inicio del mes. Es como las notas de ensayo de un coro—registrar los problemas encontrados en cada ensayo para poder verificarlos antes del siguiente. Con el tiempo, los errores comunes disminuyen, y la música se vuelve más armoniosa.
 
 ## Ejemplo didáctico
 
@@ -124,7 +122,7 @@ Cada vez que se encuentre un nuevo tipo de error del agent durante una revisión
 
 **Tarea**: Implementar una funcionalidad de exportación de archivos en una aplicación Electron. Involucra la UI del proceso de render, el proxy del sistema de archivos del preload script y la transformación de datos de la capa de servicio.
 
-**Cantando las partes individualmente (Pruebas unitarias pasaron)**: Pruebas del componente de render (pasaron, operaciones de archivo mockeadas), pruebas del preload script (pasaron, sistema de archivos mockeado), pruebas de la capa de servicio (pasaron, fuente de datos mockeada). El agent declara la finalización.
+**Cantando las partes individualmente (Pruebas unitarias pasaron)**: Pruebas del componente de render (pasaron, operaciones de archivo mockeadas), pruebas del preload script (pasaron, sistema de archivos mockeado), pruebas de la capa de servicio (pasaron, fuente de datos mockeada). El agente declara la finalización.
 
 **Cantando juntos (Defectos revelados por las pruebas end-to-end)**:
 
@@ -136,27 +134,27 @@ Cada vez que se encuentre un nuevo tipo de error del agent durante una revisión
 | Permission Issue | Different permissions in packaged environment | Missed | Caught |
 | Error Propagation | Service layer exceptions didn't reach UI layer | Missed | Caught |
 
-Los 5 defectos fueron detectados por las pruebas end-to-end, mientras que las pruebas unitarias no detectaron ninguno. El costo fue un aumento en el tiempo de prueba de 2 segundos a 15 segundos—completamente aceptable en un flujo de trabajo de agent. Por muy bien que cada parte cante individualmente, no puede superar un ensayo completo del conjunto.
+Los 5 defectos fueron detectados por las pruebas end-to-end, mientras que las pruebas unitarias no detectaron ninguno. El costo fue un aumento en el tiempo de prueba de 2 segundos a 15 segundos—completamente aceptable en un flujo de trabajo de agente. Por muy bien que cada parte cante individualmente, no puede superar un ensayo completo del conjunto.
 
 ## Ideas clave
 
 - **Las pruebas unitarias son sistemáticamente ciegas a los defectos en los límites de componentes**—su diseño de aislamiento es precisamente lo que les impide detectar problemas de interacción. Que todos canten correctamente no significa que el coro no esté desafinado.
-- **Las pruebas end-to-end no solo detectan defectos, cambian el comportamiento de codificación del agent**—haciéndolo enfocarse más en la integración y los límites.
+- **Las pruebas end-to-end no solo detectan defectos, cambian el comportamiento de codificación del agente**—haciéndolo enfocarse más en la integración y los límites.
 - **Las reglas arquitectónicas deben ser ejecutables**—no escritas en un documento esperando ser leídas, sino verificadas automáticamente en cada commit.
 - **Los mensajes de error deben estar diseñados para los agentes**—incluyendo pasos específicos sobre "cómo solucionarlo" para formar un bucle autocorrectivo.
 - **La promoción de retroalimentación de revisiones hace que el harness se fortalezca automáticamente**—cada categoría de defecto capturado se convierte en una línea de defensa permanente.
 
 ## Lecturas adicionales
 
-- [How Google Tests Software - Whittaker et al.](https://books.google.dk/books/about/How_Google_Tests_Software.html?id=VrAx1ATf-RoC&redir_esc=y) — La fuente clásica del modelo de Pirámide de Testing
+- [How Google Tests Software - Whittaker et al.](https://books.google.dk/books/about/How_Google_Tests_Software.html?id=VrAx1ATf-RoC&redir_esc=y) — La fuente clásica del modelo de Pirámide de Pruebas
 - [Harness Engineering - OpenAI](https://openai.com/index/harness-engineering/) — Prácticas de ingeniería para la ejecución automatizada de restricciones arquitectónicas
 - [Chaos Engineering - Netflix (Basiri et al.)](https://ieeexplore.ieee.org/document/7466237) — Inyección proactiva de fallas para verificar la resiliencia del sistema
-- [QuickCheck - Claessen & Hughes](https://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf) — Metodología de property testing, situada entre las pruebas de ejemplo y la verificación formal
+- [QuickCheck - Claessen & Hughes](https://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf) — Metodología de property pruebas, situada entre las pruebas de ejemplo y la verificación formal
 
 ## Ejercicios
 
 1. **Detección de defectos entre componentes**: Elige una tarea de modificación que involucre al menos tres componentes. Primero, ejecuta solo pruebas unitarias y registra los resultados, luego ejecuta pruebas end-to-end. Analiza a qué tipo de problema de interacción entre capas pertenece cada defecto adicional descubierto.
 
-2. **Automatización de reglas arquitectónicas**: Elige una restricción arquitectónica de tu proyecto y conviértela en una verificación ejecutable (con un mensaje de error orientado al agent). Intégrala en el harness y verifica su efectividad con una tarea de referencia.
+2. **Automatización de reglas arquitectónicas**: Elige una restricción arquitectónica de tu proyecto y conviértela en una verificación ejecutable (con un mensaje de error orientado al agente). Intégrala en el harness y verifica su efectividad con una tarea de referencia.
 
 3. **Promoción de retroalimentación de revisiones**: Encuentra un tipo de comentario recurrente en tu historial de revisiones de código y conviértelo en una verificación automatizada usando el proceso de cinco pasos. Compara la frecuencia del problema antes y después de la promoción.

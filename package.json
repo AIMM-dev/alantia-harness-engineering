@@ -1,8 +1,8 @@
 {
-  "name": "learn-harness-engineering",
+  "name": "alantia-harness-engineering",
   "private": true,
   "version": "0.1.0",
-  "description": "Course docs for Learn Harness Engineering powered by VitePress.",
+  "description": "Curso de Harness Engineering en español con la identidad visual de Alantia.ai.",
   "license": "MIT",
   "scripts": {
     "dev": "vitepress dev docs",

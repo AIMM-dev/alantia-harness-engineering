@@ -1,4 +1,4 @@
-# Pack Avanzado de OpenAI
+# Paquete avanzado de OpenAI
 
 Esta carpeta empaqueta la estructura de repositorio más opinionada descrita en
 el artículo de OpenAI "Harness engineering: leveraging Codex in an agent-first world"

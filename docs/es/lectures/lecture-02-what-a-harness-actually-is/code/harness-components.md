@@ -6,7 +6,7 @@ Para un agente de programación trabajando en un repositorio local:
   el LLM en sí
 
 - Harness:
-  - system prompt
+  - prompt del sistema
   - AGENTS.md
   - herramienta bash
   - herramientas de lectura/escritura de archivos
@@ -16,6 +16,6 @@ Para un agente de programación trabajando en un repositorio local:
   - comandos de prueba
   - stop hooks
   - verificaciones lint
-  - bucle de evaluación (evaluator loop)
+  - bucle de evaluación (evaluator ciclo)
 
 Si cambias cualquiera de las piezas del harness anteriores, cambias el agente efectivo.

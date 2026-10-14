@@ -23,7 +23,7 @@ Las utilidades compartidas permanecen fuera del dominio y no deben acumular lóg
 - Escribe las direcciones de dependencia permitidas en `ARCHITECTURE.md`.
 - Registra las interfaces transversales como auth, telemetría y APIs externas.
 - Añade una nota breve para la violación de límite más difícil actualmente.
-- Decide qué debe ser enforcementado mecánicamente por lint, tests o scripts.
+- Decide qué debe ser enforcementado mecánicamente por lint, pruebas o scripts.
 
 ## SOP de Ejecución
 

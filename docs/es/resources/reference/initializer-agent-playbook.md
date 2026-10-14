@@ -1,4 +1,4 @@
-# Playbook del Agente Inicializador
+# Guía del agente inicializador
 
 Usa este playbook para la primera sesión seria en un repositorio, antes de
 que comience el trabajo incremental de características.
@@ -16,7 +16,7 @@ El inicializador debería dejar atrás al menos estos artefactos:
 - una superficie de características legible por máquina como `feature_list.json`
 - un artefacto de progreso duradero como `claude-progress.md`
 - un ayudante de inicio estándar como `init.sh`
-- un commit seguro inicial que capture el scaffold de referencia
+- un commit seguro inicial que capture el estructura de soporte de referencia
 
 ## Lista de Verificación
 

@@ -24,16 +24,16 @@ de prompts o de frameworks amplios de agentes no pertenecen a la lista principal
 Los tres artículos originales siguen siendo la columna vertebral del curso:
 
 - [OpenAI: Harness engineering: leveraging Codex in an agent-first world](https://openai.com/index/harness-engineering/) (2026-02-11): repositorios agent-first, contexto repo-local, linting personalizado y barreras de protección estructurales.
-- [Anthropic: Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) (2025-11-26): agente inicializador, agente de codificación, lista de características, registro de progreso y entrega a través de ventanas de contexto.
+- [Anthropic: Effective harnesses for long-running agentes](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) (2025-11-26): agente inicializador, agente de codificación, lista de características, registro de progreso y entrega a través de ventanas de contexto.
 - [Anthropic: Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps) (2026-03-24): roles de planificador / generador / evaluador, reinicios de contexto, simplificación del harness y supuestos obsoletos.
 
 Solo se añaden algunos artículos altamente relevantes de 2026:
 
-- [OpenAI: Unrolling the Codex agent loop](https://openai.com/index/unrolling-the-codex-agent-loop/) (2026-01-23): el harness de tiempo de ejecución de Codex, llamadas de herramientas, crecimiento de contexto y terminación del bucle.
-- [Anthropic: Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) (2026-01-09): evaluando el modelo y el harness juntos, y distinguiendo harnesses de evaluación de harnesses de agentes.
+- [OpenAI: Unrolling the Codex agente ciclo](https://openai.com/index/unrolling-the-codex-agent-loop/) (2026-01-23): el harness de tiempo de ejecución de Codex, llamadas de herramientas, crecimiento de contexto y terminación del bucle.
+- [Anthropic: Demystifying evals for AI agentes](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) (2026-01-09): evaluando el modelo y el harness juntos, y distinguiendo harnesses de evaluación de harnesses de agentes.
 - [LangChain: Improving Deep Agents with harness engineering](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering) (2026-02-17): manteniendo el modelo fijo mientras se mejoran los prompts del sistema, herramientas, middleware, trazabilidad y auto-verificación para mover un agente de codificación del Top 30 al Top 5 en Terminal Bench 2.0.
-- [Thoughtworks / Martin Fowler: Harness engineering for coding agent users](https://martinfowler.com/articles/harness-engineering.html) (2026-04-02): harnesses de usuario de agentes de codificación como guías de feedforward y sensores de feedback, con controles deterministas e inferenciales.
-- [Cursor: Continually improving our agent harness](https://cursor.com/blog/continually-improving-agent-harness) (2026-04-30): tratando el harness como un sistema de producto continuamente mejorado con evals offline, métricas online, taxonomía de errores de herramientas, ajuste específico del modelo y cambio de modelo en medio del chat.
+- [Thoughtworks / Martin Fowler: Harness engineering for agente de programación users](https://martinfowler.com/articles/harness-engineering.html) (2026-04-02): harnesses de usuario de agentes de codificación como guías de feedforward y sensores de retroalimentación, con controles deterministas e inferenciales.
+- [Cursor: Continually improving our agente harness](https://cursor.com/blog/continually-improving-agent-harness) (2026-04-30): tratando el harness como un sistema de producto continuamente mejorado con evals offline, métricas online, taxonomía de errores de herramientas, ajuste específico del modelo y cambio de modelo en medio del chat.
 
 ## Referencias Extendidas de 2026
 
@@ -52,16 +52,16 @@ casos de estudio de equipos y benchmarks están excluidos.
 - [Anthropic: An update on recent Claude Code quality reports](https://www.anthropic.com/engineering/april-23-postmortem) (2026-04-23): esfuerzo de razonamiento, poda de contexto y prompts del sistema como cambios del harness que necesitan gobernanza de regresión.
 - [LangChain: Context Management for Deep Agents](https://www.langchain.com/blog/context-management-for-deepagents) (2026-01-28): descarga al sistema de archivos, truncamiento de llamadas de herramientas, resumen y evals dirigidos para harnesses de gestión de contexto.
 - [LangChain: Tuning Deep Agents to Work Well with Different Models](https://www.langchain.com/blog/tuning-deep-agents-different-models) (2026-04-29): perfiles de harness específicos del modelo para prompts, nombres de herramientas, middleware y configuración de subagentes.
-- [LangChain: Continual learning for AI agents](https://www.langchain.com/blog/continual-learning-for-ai-agents) (2026-04-05): dividiendo la mejora del agente en capas de modelo, harness y contexto, impulsado por trazas.
+- [LangChain: Continual learning for AI agentes](https://www.langchain.com/blog/continual-learning-for-ai-agents) (2026-04-05): dividiendo la mejora del agente en capas de modelo, harness y contexto, impulsado por trazas.
 - [Microsoft: Agent Harness in Agent Framework](https://devblogs.microsoft.com/agent-framework/agent-harness-in-agent-framework/) (2026-03-12): harnesses de shell/sistema de archivos, flujo de aprobación, ejecución de shell alojada y compactación de contexto.
 - [Google: Announcing ADK for Java 1.0.0](https://developers.googleblog.com/announcing-adk-for-java-100-building-the-future-of-ai-agents-in-java/) (2026-03-30): plugins, compactación de eventos, HITL, servicios de sesión/memoria y A2A como primitivas de harness reutilizables.
-- [GitHub: Automate repository tasks with GitHub Agentic Workflows](https://github.blog/ai-and-ml/automate-repository-tasks-with-github-agentic-workflows/) (2026-02-13): GitHub Actions como un ejecutor de flujos de trabajo agentic con salidas seguras, sandboxing, permisos y revisión.
-- [AWS: AI agents in enterprises: Best practices with Amazon Bedrock AgentCore](https://aws.amazon.com/blogs/machine-learning/ai-agents-in-enterprises-best-practices-with-amazon-bedrock-agentcore/) (2026-02-03): capas de harness empresarial a través de Runtime, Memory, Gateway, Identity/Policy, Observability y Evaluations.
-- [Stripe: Minions: Stripe's one-shot, end-to-end coding agents](https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents) (2026-02-09) y [Parte 2](https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2) (2026-02-19): aislamiento en devbox, harnesses de agente personalizados, máquinas de estado de blueprint, archivos de reglas, curación de herramientas MCP, controles de seguridad y bucles de feedback pre-push/CI.
+- [GitHub: Automate repository tasks with GitHub Basado en agentes Flujos de trabajo](https://github.blog/ai-and-ml/automate-repository-tasks-with-github-agentic-workflows/) (2026-02-13): GitHub Actions como un ejecutor de flujos de trabajo basado en agentes con salidas seguras, sandboxing, permisos y revisión.
+- [AWS: AI agentes in enterprises: Best practices with Amazon Bedrock AgentCore](https://aws.amazon.com/blogs/machine-learning/ai-agents-in-enterprises-best-practices-with-amazon-bedrock-agentcore/) (2026-02-03): capas de harness empresarial a través de Runtime, Memory, Gateway, Identity/Policy, Observability y Evaluations.
+- [Stripe: Minions: Stripe's one-shot, end-to-end agentes de programación](https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents) (2026-02-09) y [Parte 2](https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2) (2026-02-19): aislamiento en devbox, harnesses de agente personalizados, máquinas de estado de blueprint, archivos de reglas, curación de herramientas MCP, controles de seguridad y bucles de retroalimentación pre-push/CI.
 - [Cognition: What We Learned Building Cloud Agents](https://cognition.ai/blog/what-we-learned-building-cloud-agents) (2026-04-23): aislamiento en VM, snapshot/resume de sesión, orquestación, gobernanza, logging de auditoría e integraciones para tiempos de ejecución de agentes en la nube.
 - [Cognition: Multi-Agents: What's Actually Working](https://cognition.ai/blog/multi-agents-working) (2026-04-22): bucles generador-verificador, revisores de contexto limpio, enrutamiento smart-friend, coordinación manager-child y límites de comunicación entre agentes.
 - [Replit: Decision-Time Guidance: Keeping Replit Agent Reliable](https://blog.replit.com/decision-time-guidance) (2026-01-20, actualizado 2026-01-23): un clasificador ligero inyecta guía situacional corta en el punto de decisión en lugar de meter todas las reglas en el prompt del sistema.
-- [Vercel: How we made v0 an effective coding agent](https://vercel.com/blog/how-we-made-v0-an-effective-coding-agent) (2026-01-07): prompts de sistema dinámicos, una capa de reescritura en streaming y autocorrectores deterministas/basados en modelo.
+- [Vercel: How we made v0 an effective agente de programación](https://vercel.com/blog/how-we-made-v0-an-effective-coding-agent) (2026-01-07): prompts de sistema dinámicos, una capa de reescritura en streaming y autocorrectores deterministas/basados en modelo.
 - [Vercel: Introducing deepsec](https://vercel.com/blog/introducing-deepsec-find-and-fix-vulnerabilities-in-your-code-base) (2026-05-04): un harness de agente de codificación enfocado en seguridad con pasos de escaneo, investigación, revalidación, enriquecimiento, exportación, plugin y verificación de rechazos.
 - [Sourcegraph: CodeScaleBench](https://sourcegraph.com/blog/codescalebench-testing-coding-agents-on-large-codebases-and-multi-repo-software-engineering-tasks) (2026-03-03): una referencia de harness de eval/herramientas que cubre adopción de herramientas MCP, transcripciones de uso de herramientas, QA de benchmark, puertas de verificador/reproducibilidad e iteración de prompt/prefacio.
 
@@ -73,9 +73,9 @@ fundacional del curso.
 
 - [On the Impact of AGENTS.md Files on the Efficiency of AI Coding Agents](https://arxiv.org/html/2601.20404v2): gpt-5.2-codex; 10 repos / 124 PR tasks; Table 1.
 
-- [Anthropic: Sonnet 4.5 — SWE-bench Verified methodology (2025-09-29)](https://www.anthropic.com/news/claude-sonnet-4-5)
+- [Anthropic: Sonnet 4.5 — SWE-bench Verified metodología (2025-09-29)](https://www.anthropic.com/news/claude-sonnet-4-5)
 - [Boris Cherny: personal 30-day production report (2025-12-27)](https://twitter.com/bcherny/status/2004887829252317325) · [quoted original post](https://simonwillison.net/tags/boris-cherny/)
-- [Karpathy: measured autoresearch leaderboard improvement](https://github.com/karpathy/nanochat/commit/f06860494848db080c9a80a0ffa83203b042056b)
+- [Karpathy: measured autoresearch clasificación improvement](https://github.com/karpathy/nanochat/commit/f06860494848db080c9a80a0ffa83203b042056b)
 - [Karpathy: two-day autonomous tuning commit](https://github.com/karpathy/nanochat/commit/6ed7d1d82cee16c2e26f45d559ad3338447a6c1b)
 
 ## Orden de Lectura Sugerido
@@ -87,8 +87,8 @@ fundacional del curso.
 5. OpenAI Harness engineering
 6. Anthropic Effective harnesses
 7. Anthropic Harness design for long-running application development
-8. OpenAI Codex agent loop
-9. Anthropic agent evals
+8. OpenAI Codex agente ciclo
+9. Anthropic agente evals
 10. LangChain Improving Deep Agents
-11. Thoughtworks / Martin Fowler Harness engineering for coding agent users
-12. Cursor Continually improving our agent harness
+11. Thoughtworks / Martin Fowler Harness engineering for agente de programación users
+12. Cursor Continually improving our agente harness

@@ -1,8 +1,12 @@
-# Lecture 13 Code Examples
+# Ejemplos de la lección 13
 
-Use this folder for examples of:
+Esta carpeta contiene plantillas en español para diseñar un ciclo de trabajo:
 
-- goal.md goal description template
-- loop-state.md loop state template
-- Maker / Checker role prompt templates
-- Loop control script examples
+- [Objetivo y criterios de aceptación](./goal-template.md).
+- [Estado y registro de rondas](./loop-state-template.md).
+- [Prompt del implementador](./maker-prompt.md).
+- [Prompt del verificador](./checker-prompt.md).
+
+Adapta los comandos a tu proyecto y acuerda las condiciones de parada antes de empezar.
+
+[Volver a la lección](../index.md)

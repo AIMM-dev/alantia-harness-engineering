@@ -2,7 +2,7 @@
 
 Usa esta carpeta para ejemplos de:
 
-- logs como feedback
+- logs como retroalimentación
 - visibilidad del estado en runtime
 - verificaciones de estado limpio
 - ejemplos de recuperación

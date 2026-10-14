@@ -4,13 +4,13 @@ Harness A:
 
 - tasa de completitud
 - reintentos promedio
-- bugs detectados antes de la revisión humana
+- errores detectados antes de la revisión humana
 
 Harness B:
 
 - tasa de completitud
 - reintentos promedio
-- bugs detectados antes de la revisión humana
+- errores detectados antes de la revisión humana
 
 Interpretación:
 

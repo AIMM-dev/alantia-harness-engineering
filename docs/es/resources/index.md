@@ -24,8 +24,8 @@ Para una configuración mínima, empieza con:
 
 Luego añade:
 
-- handoff de sesión: [`templates/session-handoff.md`](./templates/session-handoff.md)
-- checklist de salida limpia: [`templates/clean-state-checklist.md`](./templates/clean-state-checklist.md)
+- traspaso de sesión: [`templates/session-handoff.md`](./templates/session-handoff.md)
+- lista de verificación de salida limpia: [`templates/clean-state-checklist.md`](./templates/clean-state-checklist.md)
 - rúbrica de evaluación: [`templates/evaluator-rubric.md`](./templates/evaluator-rubric.md)
 
 Si quieres una estructura de repositorio más completa al estilo OpenAI del artículo "Harness engineering", usa el paquete avanzado:

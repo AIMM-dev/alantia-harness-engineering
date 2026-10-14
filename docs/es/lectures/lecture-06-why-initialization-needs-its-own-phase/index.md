@@ -1,7 +1,5 @@
-[中文版本 →](../../../zh/lectures/lecture-06-why-initialization-needs-its-own-phase/)
-
-> Ejemplos de código: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/es/lectures/lecture-06-why-initialization-needs-its-own-phase/code/)
-> Proyecto práctico: [Project 03. Multi-session continuity](./../../projects/project-03-multi-session-continuity/index.md)
+> Ejemplos de código: [code/](https://github.com/AIMM-dev/alantia-harness-engineering/blob/main/docs/es/lectures/lecture-06-why-initialization-needs-its-own-phase/code/)
+> Proyecto práctico: [Proyecto 03. Mantén al agente trabajando tras reiniciar sesiones](./../../projects/project-03-multi-session-continuity/index.md)
 
 # Lección 06. Inicializa antes de cada sesión del agente
 
@@ -23,17 +21,17 @@ Cuando mezclas inicialización e implementación, el agente enfrenta un problema
 
 ```mermaid
 flowchart TB
-    subgraph Wrong["Mixed session (wrong)"]
-        W1["Start feature work immediately"] --> W2["Discover env and test gaps mid-task"]
-        W2 --> W3["Accumulate unverified code"]
-        W3 --> W4["Next session must rediscover project state"]
+    subgraph Wrong["Sesión mixta (incorrecta)"]
+        W1["Empezar a implementar de inmediato"] --> W2["Descubrir carencias del entorno y las pruebas a mitad de la tarea"]
+        W2 --> W3["Acumular código sin verificar"]
+        W3 --> W4["La siguiente sesión debe redescubrir el estado del proyecto"]
     end
 
-    subgraph Right["Dedicated initialization (right)"]
-        R1["Session 1: environment runnable"] --> R2["Example test passing"]
-        R2 --> R3["Bootstrap contract + task list written"]
-        R3 --> R4["Clean checkpoint committed"]
-        R4 --> R5["Later sessions start directly on verified tasks"]
+    subgraph Right["Inicialización separada (correcta)"]
+        R1["Sesión 1: entorno ejecutable"] --> R2["Prueba de ejemplo aprobada"]
+        R2 --> R3["Contrato de inicialización y lista de tareas escritos"]
+        R3 --> R4["Punto de control limpio guardado en un commit"]
+        R4 --> R5["Las siguientes sesiones parten de tareas verificadas"]
     end
 ```
 
@@ -49,7 +47,7 @@ El presupuesto de sesión también se está desperdiciando. El trabajo de inicia
 
 El problema más fácilmente pasado por alto son las minas de suposiciones implícitas. Las decisiones que el agente toma durante la inicialización (qué framework de pruebas, cómo organizar directorios, gestión de dependencias) — si no se registran explícitamente, las sesiones posteriores no pueden entender estas decisiones. Peor aún, las sesiones posteriores podrían tomar decisiones contradictorias. El primer equipo de construcción usó cimientos de hormigón, el segundo equipo no lo sabe y clavó pilotes de madera en ellos — los cimientos se agrietan.
 
-[Anthropic: initializer / coding agent](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
+[Anthropic: initializer / agente de programación](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
 
 La guía de ingeniería de harness de Codex de OpenAI también enfatiza el principio del "repositorio como registro operativo" — establece una estructura operativa clara desde la primera ejecución, o cada nueva sesión tendrá que re-inferir las convenciones del proyecto.
 
@@ -72,42 +70,42 @@ La guía de ingeniería de harness de Codex de OpenAI también enfatiza el princ
 
 **3. Documento de contrato de bootstrap.** Un documento claro que indica a las sesiones posteriores:
 ```markdown
-# Initialization Contract
+# Contrato de inicialización
 
-## Start Commands
-- Install dependencies: `make setup`
-- Start dev server: `make dev`
-- Run tests: `make test`
-- Full verification: `make check`
+## Comandos de inicio
+- Instalar dependencias: `make setup`
+- Iniciar el servidor de desarrollo: `make dev`
+- Ejecutar las pruebas: `make test`
+- Verificación completa: `make check`
 
-## Current State
-- All dependencies installed and locked
-- Test framework configured (Vitest + React Testing Library)
-- Example test passing (1/1)
-- Lint rules configured (ESLint + Prettier)
+## Estado actual
+- Todas las dependencias instaladas y sus versiones fijadas
+- Framework de pruebas configurado (Vitest + React Testing Library)
+- Prueba de ejemplo aprobada (1/1)
+- Reglas de lint configuradas (ESLint + Prettier)
 
-## Project Structure
-- src/ — Source code
-- src/components/ — React components
-- src/api/ — API client
-- tests/ — Test files
+## Estructura del proyecto
+- src/ — Código fuente
+- src/components/ — Componentes de React
+- src/api/ — Cliente de la API
+- tests/ — Archivos de pruebas
 ```
 
 **4. Desglose de tareas.** Divide todo el proyecto en una lista ordenada de tareas, cada una con criterios de aceptación claros:
 ```markdown
-# Task Breakdown
+# Desglose de tareas
 
-## Task 1: User Authentication Basics
-- Implement JWT auth middleware
-- Add login/register endpoints
-- Acceptance: pytest tests/test_auth.py all passing
+## Tarea 1: autenticación básica de usuarios
+- Implementar middleware de autenticación JWT
+- Añadir endpoints de inicio de sesión y registro
+- Aceptación: todas las pruebas de pytest tests/test_auth.py pasan
 
-## Task 2: User Profile Page
-- Implement user profile CRUD
-- Add profile edit form
-- Acceptance: pytest tests/test_profile.py all passing
+## Tarea 2: página de perfil de usuario
+- Implementar CRUD del perfil de usuario
+- Añadir un formulario para editar el perfil
+- Aceptación: todas las pruebas de pytest tests/test_profile.py pasan
 
-## Task 3: Search Feature
+## Tarea 3: función de búsqueda
 - ...
 ```
 
@@ -118,12 +116,12 @@ La guía de ingeniería de harness de Codex de OpenAI también enfatiza el princ
 **Criterios de finalización de inicialización**: No "cuánto código se escribió," sino si se cumplen las cuatro condiciones del contrato de bootstrap — puede iniciar, puede probar, puede ver el progreso, puede retomar los siguientes pasos. Usa esta lista de verificación para validar la inicialización:
 
 ```markdown
-## Initialization Acceptance Checklist
-- [ ] `make setup` succeeds from scratch
-- [ ] `make test` has at least one passing test
-- [ ] A new agent session can answer "how to run" and "how to test" from repo contents alone
-- [ ] Task breakdown file exists with at least 3 tasks
-- [ ] Everything committed to git
+## Lista de aceptación de la inicialización
+- [ ] `make setup` funciona desde cero
+- [ ] `make test` tiene al menos una prueba que pasa
+- [ ] Una nueva sesión del agente puede saber cómo ejecutar y probar el proyecto leyendo solo el repositorio
+- [ ] Existe un archivo de desglose con al menos 3 tareas
+- [ ] Todo está guardado en commits de git
 ```
 
 ## Ejemplo didáctico
@@ -134,7 +132,7 @@ Dos enfoques de inicialización para un proyecto frontend de React:
 
 **Enfoque mixto (verter cimientos y construir paredes simultáneamente)**: El agente simultáneamente creó el scaffolding del proyecto e implementó la primera funcionalidad en la sesión 1. Al final de la sesión, el repositorio tenía código ejecutable pero: sin documentación explícita de comandos de inicio/prueba, sin archivo de seguimiento de progreso, sin desglose de tareas. La sesión 2 dedicó ~20 minutos a inferir la estructura del proyecto, el framework de pruebas y el proceso de construcción — como un nuevo equipo de construcción que llega a un sitio sin saber cuánto avanzaron los cimientos o dónde van las tuberías, teniendo que cavar agujeros uno por uno para averiguarlo.
 
-**Inicialización dedicada (cimientos primero)**: La sesión 1 solo hizo inicialización — creó la estructura de directorios desde una plantilla, configuró el framework de pruebas (Vitest + React Testing Library), escribió y verificó una prueba de ejemplo, creó el documento de contrato de bootstrap y el archivo de desglose de tareas, hizo commit del punto de control inicial. El tiempo de reconstrucción de la sesión 2 fue menos de 3 minutos, y comenzó a trabajar directamente desde la lista de tareas — el equipo llega, echa un vistazo al plano y sabe exactamente dónde retomar.
+**Inicialización dedicada (cimientos primero)**: La sesión 1 solo hizo inicialización — creó la estructura de directorios desde una plantilla, configuró el framework de pruebas (Vitest + React Pruebas Library), escribió y verificó una prueba de ejemplo, creó el documento de contrato de bootstrap y el archivo de desglose de tareas, hizo commit del punto de control inicial. El tiempo de reconstrucción de la sesión 2 fue menos de 3 minutos, y comenzó a trabajar directamente desde la lista de tareas — el equipo llega, echa un vistazo al plano y sabe exactamente dónde retomar.
 
 Comparación del ciclo completo del proyecto: el tiempo total de reconstrucción del enfoque mixto (a través de todas las sesiones) fue ~60% más que el enfoque de inicialización dedicada. Los 20 minutos extra gastados en inicialización fueron recuperados muchas veces en las sesiones posteriores. Como cimientos sólidos haciendo que las paredes se levanten más rápido — lento es rápido.
 

@@ -1,19 +1,17 @@
-[中文版本 →](../../../zh/lectures/lecture-12-why-every-session-must-leave-a-clean-state/)
+> Ejemplos de código: [code/](https://github.com/AIMM-dev/alantia-harness-engineering/blob/main/docs/es/lectures/lecture-12-why-every-session-must-leave-a-clean-state/code/)
+> Proyecto práctico: [Proyecto 06. Construye un harness completo](./../../projects/project-06-runtime-observability-and-debugging/index.md)
 
-> Ejemplos de código: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/es/lectures/lecture-12-why-every-session-must-leave-a-clean-state/code/)
-> Proyecto práctico: [Project 06. Complete harness (Capstone)](./../../projects/project-06-runtime-observability-and-debugging/index.md)
-
-# Lección 12. Deja un handoff limpio al final de cada sesión
+# Lección 12. Deja un traspaso limpio al final de cada sesión
 
 > Guía de ingeniería: los umbrales son valores didácticos ajustables, no límites demostrados. Los tokens dependen del tokenizador y del contenido, no solo de las líneas.
 
-Tu agent ejecuta toda la tarde, modifica 20 archivos, hace commit del código, la sesión termina. La siguiente sesión del agent comienza y descubre inmediatamente: el build está roto, las pruebas están en rojo, los archivos temporales de debug están por todas partes, la feature list no se actualizó, y el progreso es completamente incierto. La nueva sesión dedica sus primeros 30 minutos solo a averiguar "qué hizo realmente la última sesión."
+Tu agente ejecuta toda la tarde, modifica 20 archivos, hace commit del código, la sesión termina. La siguiente sesión del agente comienza y descubre inmediatamente: el build está roto, las pruebas están en rojo, los archivos temporales de debug están por todas partes, la feature list no se actualizó, y el progreso es completamente incierto. La nueva sesión dedica sus primeros 30 minutos solo a averiguar "qué hizo realmente la última sesión."
 
 Tanto OpenAI como Anthropic afirman claramente: **la confiabilidad a largo plazo depende de la disciplina operacional, no solo del éxito en una única ejecución.** La calidad del estado al final de la sesión determina directamente la eficiencia de la siguiente sesión. Piensa en ello como las buenas prácticas de Git—cada commit debería ser un cambio atómico y compilable, no un montón de código a medio terminar.
 
 ## Conceptos clave
 
-- **Clean state**: El sistema satisface cinco condiciones al final de la sesión—el build pasa, las pruebas pasan, el progreso está registrado, no hay artefactos obsoletos, y la ruta de inicio está disponible. Faltar cualquiera significa que la sesión no está "terminada."
+- **Estado limpio**: El sistema satisface cinco condiciones al final de la sesión—la compilación termina correctamente, las pruebas pasan, el progreso está registrado, no hay artefactos obsoletos, y la ruta de inicio está disponible. Faltar cualquiera significa que la sesión no está "terminada."
 - **Integridad de sesión**: Análogo a las transacciones de base de datos—o bien se hace commit completo y se deja un clean state, o se hace rollback al último estado consistente. No hay término medio.
 - **Documento de calidad**: Un artefacto activo que registra continuamente las calificaciones de calidad de cada módulo. No es una evaluación única, sino un rastreador que muestra si la base de código se está fortaleciendo o debilitando con el tiempo.
 - **Bucle de limpieza**: Una sesión de mantenimiento regular orientada a reducir sistemáticamente la entropía en la base de código. No es una corrección de emergencia, sino operaciones rutinarias.
@@ -24,27 +22,27 @@ Tanto OpenAI como Anthropic afirman claramente: **la confiabilidad a largo plazo
 
 ```mermaid
 flowchart LR
-    Work["Feature work complete"] --> Build{"Build passes?"}
-    Build -->|yes| Test{"Tests pass?"}
-    Build -->|no| Fix["Fix before exit"]
-    Test -->|yes| Record["Update feature list + progress"]
+    Work["Implementación terminada"] --> Build{"¿La compilación pasa?"}
+    Build -->|sí| Test{"¿Las pruebas pasan?"}
+    Build -->|no| Fix["Corregir antes de cerrar"]
+    Test -->|sí| Record["Actualizar la lista de funciones y el progreso"]
     Test -->|no| Fix
-    Record --> Cleanup["Remove temp artifacts / debug code"]
-    Cleanup --> Startup{"Standard startup path works?"}
-    Startup -->|yes| Clean["Clean handoff"]
+    Record --> Cleanup["Eliminar archivos temporales y código de depuración"]
+    Cleanup --> Startup{"¿Funciona el inicio habitual?"}
+    Startup -->|sí| Clean["Traspaso limpio"]
     Startup -->|no| Fix
     Fix --> Build
 ```
 
 ```mermaid
 flowchart LR
-    Dirty["Session ends with<br/>red tests / temp files / no progress update"] --> Diagnose["Next session first has to<br/>figure out what happened"]
-    Diagnose --> Fragile["New work starts on a messy repo"]
-    Fragile --> More["More debug files, more broken checks,<br/>more unclear progress"]
+    Dirty["La sesión termina con<br/>pruebas fallidas / archivos temporales / progreso sin actualizar"] --> Diagnose["La siguiente sesión debe<br/>averiguar qué ocurrió"]
+    Diagnose --> Fragile["El nuevo trabajo comienza en un repositorio desordenado"]
+    Fragile --> More["Más archivos de depuración y verificaciones fallidas,<br/>menos claridad sobre el progreso"]
     More --> Dirty
 
-    Clean["Session ends with<br/>green tests / updated progress / temp files removed"] --> Fast["Next session can start coding immediately"]
-    Fast --> Stable["No need to rescue the repo first"]
+    Clean["La sesión termina con<br/>pruebas aprobadas / progreso actualizado / sin archivos temporales"] --> Fast["La siguiente sesión puede trabajar de inmediato"]
+    Fast --> Stable["No hace falta reparar el repositorio antes"]
     Stable --> Clean
 ```
 
@@ -84,23 +82,23 @@ Registra progreso y verificación en archivos versionados para que la siguiente 
 
 ### "Limpiar después" significa nunca limpiar
 
-La trampa mental más común es "no hay tiempo para limpiar esta sesión, lo haré la próxima vez." Pero la siguiente sesión del agent no sabe lo que dejaste atrás—ve un desorden de código y un estado incierto. Dedicará un tiempo significativo a inferir "qué partes de este código son intencionales y cuáles son temporales."
+La trampa mental más común es "no hay tiempo para limpiar esta sesión, lo haré la próxima vez." Pero la siguiente sesión del agente no sabe lo que dejaste atrás—ve un desorden de código y un estado incierto. Dedicará un tiempo significativo a inferir "qué partes de este código son intencionales y cuáles son temporales."
 
 Peor aún, cada sesión tiene sus propios objetivos de tarea. La nueva sesión está ahí para hacer trabajo nuevo, no para limpiar el desastre de la sesión anterior. Ignorará el caos y comenzará trabajo nuevo encima de él, introduciendo más caos sobre el caos. Este es el bucle de retroalimentación positiva de la entropía.
 
 ## Cómo hacerlo bien
 
-### 1. Clean state como requisito de finalización
+### 1. Estado limpio como requisito de finalización
 
 Define explícitamente en el harness: **finalización de sesión = la tarea pasa la verificación Y la verificación de clean state pasa.** Faltar cualquiera de las dos significa que la sesión no está completa. Escríbelo en CLAUDE.md:
 
 ```
-## Session Exit Checklist
-- [ ] Build passes (npm run build)
-- [ ] All tests pass (npm test)
-- [ ] Feature list updated
-- [ ] No debug code remaining (console.log, debugger, TODO)
-- [ ] Standard startup path available (npm run dev)
+## Lista de cierre de sesión
+- [ ] La compilación pasa (npm run build)
+- [ ] Todas las pruebas pasan (npm test)
+- [ ] Lista de funciones actualizada
+- [ ] Sin código de depuración pendiente (console.log, debugger, TODO)
+- [ ] El inicio habitual funciona (npm run dev)
 ```
 
 ### 2. Estrategia de limpieza en modo dual
@@ -116,21 +114,21 @@ Combina dos modos de limpieza:
 Un documento de calidad es un artefacto activo que califica continuamente cada módulo:
 
 ```markdown
-# Quality Document
+# Documento de calidad
 
-## User Authentication Module (Quality: A)
-- Verification passing: Yes
-- Agent understandable: Yes
-- Test stability: Stable
-- Architecture boundaries: Compliant
-- Code conventions: Followed
+## Módulo de autenticación de usuarios (calidad: A)
+- Verificación aprobada: sí
+- Comprensible para el agente: sí
+- Estabilidad de las pruebas: estable
+- Límites de arquitectura: respetados
+- Convenciones de código: aplicadas
 
-## Payment Module (Quality: C)
-- Verification passing: Partial (payment callback untested)
-- Agent understandable: Difficult (logic spread across 3 files)
-- Test stability: Unstable (2 flaky tests)
-- Architecture boundaries: Violations present
-- Code conventions: Partially followed
+## Módulo de pagos (calidad: C)
+- Verificación aprobada: parcial (callback de pago sin probar)
+- Comprensible para el agente: difícil (lógica repartida en 3 archivos)
+- Estabilidad de las pruebas: inestable (2 pruebas intermitentes)
+- Límites de arquitectura: hay incumplimientos
+- Convenciones de código: aplicadas parcialmente
 ```
 
 Las nuevas sesiones leen este documento e inmediatamente saben dónde priorizar. Corrige primero el módulo con la calificación más baja.
@@ -179,7 +177,7 @@ Una aplicación Electron desarrollada con agentes durante 12 semanas, comparando
 
 ## Ejercicios
 
-1. **Checklist de clean state**: Diseña un checklist de salida de sesión para tu base de código que cubra las cinco dimensiones. Aplícalo durante 5 sesiones consecutivas y registra las violaciones por dimensión.
+1. **Lista de verificación de clean state**: Diseña un lista de verificación de salida de sesión para tu base de código que cubra las cinco dimensiones. Aplícalo durante 5 sesiones consecutivas y registra las violaciones por dimensión.
 
 2. **Comparación de referencia**: Usa un conjunto fijo de tareas con dos variantes de harness (con/sin requisitos de clean state). Compara la tasa de finalización, la cantidad de reintentos y la tasa de escape de defectos.
 

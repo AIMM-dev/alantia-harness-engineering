@@ -6,8 +6,8 @@ Una instantánea de calidad para cada dominio de producto y capa arquitectónica
 
 **Escala de calificación:**
 
-- **A**: Toda la verificación pasando, arquitectura limpia, legible para agentes, tests estables
-- **B**: Verificación pasando, mayormente limpio, brechas menores en legibilidad o cobertura de tests
+- **A**: Toda la verificación pasando, arquitectura limpia, legible para agentes, pruebas estables
+- **B**: Verificación pasando, mayormente limpio, brechas menores en legibilidad o cobertura de pruebas
 - **C**: Parcialmente funcionando, brechas conocidas, algunas áreas de código difíciles de entender para los agentes
 - **D**: No funcionando, o problemas estructurales importantes
 

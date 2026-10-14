@@ -1,7 +1,5 @@
-[中文版本 →](../../../zh/lectures/lecture-02-what-a-harness-actually-is/)
-
-> Ejemplos de código: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/es/lectures/lecture-02-what-a-harness-actually-is/code/)
-> Proyecto práctico: [Project 01. Prompt-only vs. rules-first](./../../projects/project-01-baseline-vs-minimal-harness/index.md)
+> Ejemplos de código: [code/](https://github.com/AIMM-dev/alantia-harness-engineering/blob/main/docs/es/lectures/lecture-02-what-a-harness-actually-is/code/)
+> Proyecto práctico: [Proyecto 01. Solo prompts frente a reglas explícitas](./../../projects/project-01-baseline-vs-minimal-harness/index.md)
 
 # Lección 02. Qué significa realmente harness
 
@@ -29,7 +27,7 @@ Mira algunas herramientas que ya conoces:
 
 ## Conceptos clave
 
-- **Qué es un harness**: Todo en la infraestructura de ingeniería fuera de los pesos del modelo. OpenAI destila el trabajo central del ingeniero en tres cosas: diseñar entornos, expresar intenciones y construir ciclos de retroalimentación. Anthropic llama a su Claude Agent SDK un "agent harness de propósito general."
+- **Qué es un harness**: Todo en la infraestructura de ingeniería fuera de los pesos del modelo. OpenAI destila el trabajo central del ingeniero en tres cosas: diseñar entornos, expresar intenciones y construir ciclos de retroalimentación. Anthropic llama a su Claude Agent SDK un "agente harness de propósito general."
 - **El repositorio es la única fuente de verdad**: Cualquier cosa que el agente no pueda ver, para todos los efectos prácticos, no existe. OpenAI trata el repositorio como el "sistema de registro" — todo el contexto necesario debe vivir ahí, a través de archivos estructurados y una organización clara de directorios.
 - **Da un mapa, no un manual**: La experiencia de OpenAI — `AGENTS.md` debería ser una página de directorio, no una enciclopedia. Alrededor de 100 líneas es suficiente. Si no cabe, divídelo en el directorio `docs/` y deja que el agente lea bajo demanda.
 - **Restringe, no microgestiones**: Un buen harness usa reglas ejecutables para restringir al agente, en lugar de enumerar instrucciones una por una. OpenAI dice "haz cumplir invariantes, no microgestiones la implementación"; Anthropic descubrió que los agentes elogian confiadamente su propio trabajo, y la solución es separar "la persona que hace el trabajo" de "la persona que revisa el trabajo."
@@ -41,11 +39,11 @@ Volviendo a la analogía de la cocina. Una cocina completa tiene cinco áreas fu
 
 ```mermaid
 flowchart LR
-    Rules["Project rules<br/>AGENTS.md / CLAUDE.md"] --> Agent["AI Agent"]
-    State["Progress and git<br/>PROGRESS.md / commits"] --> Agent
-    Agent --> Tools["Tools<br/>shell / files / tests"]
-    Tools --> Env["Runtime<br/>deps / services / versions"]
-    Env --> Checks["Check results<br/>test / lint / build"]
+    Rules["Reglas del proyecto<br/>AGENTS.md / CLAUDE.md"] --> Agent["Agente de IA"]
+    State["Progreso y git<br/>PROGRESS.md / commits"] --> Agent
+    Agent --> Tools["Herramientas<br/>shell / archivos / pruebas"]
+    Tools --> Env["Entorno de ejecución<br/>dependencias / servicios / versiones"]
+    Env --> Checks["Resultados de verificación<br/>test / lint / build"]
     Checks --> Agent
 ```
 
@@ -63,12 +61,12 @@ Verification commands:
 - Tests: pytest tests/ -x
 - Type check: mypy src/ --strict
 - Lint: ruff check src/
-- Full verification: make check (includes all above)
+- Verificación completa: make check (includes all above)
 ```
 
 Que falte cualquier subsistema es como que falte un área funcional en la cocina — todavía puedes cocinar, pero siempre será incómodo.
 
-**Cuantificar el valor de los componentes del harness**: Usa una ablación con el mismo modelo fijo. Mantén el modelo fijo, elimina subsistemas uno a la vez y mide cuál eliminación causa la mayor caída de rendimiento. La mayor caída identifica el componente con mayor contribución marginal en esa tarea; no identifica automáticamente el cuello de botella. Una caída casi nula también necesita interpretación: el componente puede ser redundante, estar mal diseñado o simplemente no haber sido ejercitado por esa tarea. Para diagnosticar cuellos de botella, usa primero registros de fallos y atribución, y usa la ablación como evidencia de apoyo: ¿falló por intención de tarea poco clara, contexto insuficiente, entorno no reproducible, falta de feedback de verificación o gestión de estado rota?
+**Cuantificar el valor de los componentes del harness**: Usa una ablación con el mismo modelo fijo. Mantén el modelo fijo, elimina subsistemas uno a la vez y mide cuál eliminación causa la mayor caída de rendimiento. La mayor caída identifica el componente con mayor contribución marginal en esa tarea; no identifica automáticamente el cuello de botella. Una caída casi nula también necesita interpretación: el componente puede ser redundante, estar mal diseñado o simplemente no haber sido ejercitado por esa tarea. Para diagnosticar cuellos de botella, usa primero registros de fallos y atribución, y usa la ablación como evidencia de apoyo: ¿falló por intención de tarea poco clara, contexto insuficiente, entorno no reproducible, falta de retroalimentación de verificación o gestión de estado rota?
 
 ## Ejemplo didáctico
 

@@ -1,7 +1,5 @@
-[中文版本 →](../../../zh/lectures/lecture-03-why-the-repository-must-become-the-system-of-record/)
-
-> Ejemplos de código: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/es/lectures/lecture-03-why-the-repository-must-become-the-system-of-record/code/)
-> Proyecto práctico: [Proyecto 02. Espacio de trabajo legible para agentes](./../../projects/project-02-agent-readable-workspace/index.md)
+> Ejemplos de código: [code/](https://github.com/AIMM-dev/alantia-harness-engineering/blob/main/docs/es/lectures/lecture-03-why-the-repository-must-become-the-system-of-record/code/)
+> Proyecto práctico: [Proyecto 02. Haz el proyecto legible y retoma el trabajo](./../../projects/project-02-agent-readable-workspace/index.md)
 
 # Lección 03. Convierte el repositorio en la fuente única de verdad
 
@@ -42,9 +40,9 @@ flowchart LR
 flowchart TB
     Q1["¿Qué es este sistema?"] --> A1["AGENTS.md / README"]
     Q2["¿Cómo está organizado?"] --> A2["ARCHITECTURE.md / docs de módulos"]
-    Q3["¿Cómo lo ejecuto?"] --> A3["Makefile / init.sh / scripts de package"]
+    Q3["¿Cómo lo ejecuto?"] --> A3["Makefile / init.sh / scripts de package.json"]
     Q4["¿Cómo lo verifico?"] --> A4["Comandos de test, lint y check"]
-    Q5["¿Dónde estamos ahora?"] --> A5["PROGRESS.md / feature list / historial git"]
+    Q5["¿Dónde estamos ahora?"] --> A5["PROGRESS.md / lista de funciones / historial git"]
 
     A1 --> Ready["Una nueva sesión puede empezar a trabajar<br/>sin preguntar a un humano"]
     A2 --> Ready
@@ -53,7 +51,7 @@ flowchart TB
     A5 --> Ready
 ```
 
-Si no puede responder, el mapa tiene zonas en blanco. Donde el mapa está en blanco, el agente adivina: las malas conjeturas se convierten en bugs y adivinar demasiado desperdicia contexto. Y cada sesión nueva vuelve a adivinarlo todo. El coste de adivinar siempre es mayor que el coste de dibujar bien el mapa desde el principio.
+Si no puede responder, el mapa tiene zonas en blanco. Donde el mapa está en blanco, el agente adivina: las malas conjeturas se convierten en errores y adivinar demasiado desperdicia contexto. Y cada sesión nueva vuelve a adivinarlo todo. El coste de adivinar siempre es mayor que el coste de dibujar bien el mapa desde el principio.
 
 ## Conceptos clave
 
@@ -78,25 +76,25 @@ Si no puede responder, el mapa tiene zonas en blanco. Donde el mapa está en bla
 
 ```
 project/
-├── AGENTS.md              # Entry: project overview, run commands, hard constraints
+├── AGENTS.md              # Entrada: resumen, comandos y restricciones obligatorias
 ├── src/
 │   ├── api/
-│   │   ├── ARCHITECTURE.md  # API layer architecture decisions
+│   │   ├── ARCHITECTURE.md  # Decisiones de arquitectura de la API
 │   │   └── ...
 │   ├── db/
-│   │   ├── CONSTRAINTS.md   # Database operation hard constraints
+│   │   ├── CONSTRAINTS.md   # Restricciones de la base de datos
 │   │   └── ...
 │   └── ...
-├── PROGRESS.md             # Current progress: done, in-progress, blocked
-└── Makefile                # Standardized commands: setup, test, lint, check
+├── PROGRESS.md             # Progreso: terminado, en curso, bloqueado
+└── Makefile                # Comandos estándar: setup, test, lint, check
 ```
 
 ## Gestionar estado de agentes con principios ACID
 
 Esta analogía viene de la gestión de transacciones en bases de datos. Puede parecer una complicación excesiva, pero en realidad da un marco muy práctico:
 
-- **Atomicity**: Cada "operación lógica" (por ejemplo, "añadir nuevo endpoint y actualizar tests") recibe un commit de git. Si falla a mitad de camino, `git stash` para revertir. Todo o nada: no hay "medio hecho".
-- **Consistency**: Define predicados de verificación de "estado consistente": todos los tests pasan, lint no reporta errores. El agente ejecuta verificación después de cada operación; los estados intermedios inconsistentes no se commitean. Como una transferencia bancaria: no puedes debitar sin acreditar.
+- **Atomicity**: Cada "operación lógica" (por ejemplo, "añadir nuevo endpoint y actualizar pruebas") recibe un commit de git. Si falla a mitad de camino, `git stash` para revertir. Todo o nada: no hay "medio hecho".
+- **Consistency**: Define predicados de verificación de "estado consistente": todos las pruebas pasan, lint no reporta errores. El agente ejecuta verificación después de cada operación; los estados intermedios inconsistentes no se commitean. Como una transferencia bancaria: no puedes debitar sin acreditar.
 - **Isolation**: Cuando varios agentes trabajan en paralelo, diseña archivos de estado que eviten condiciones de carrera. Enfoque simple: cada agente usa su propio archivo de progreso, o se usan ramas de git para aislar. Dos cocineros no pueden sazonar la misma olla al mismo tiempo: ¿quién se responsabiliza si queda demasiado salada?
 - **Durability**: El conocimiento crítico del proyecto vive en archivos versionados por git. El estado temporal puede quedarse en memoria de sesión, pero el conocimiento entre sesiones debe persistirse en archivos. Lo que está en tu cabeza no cuenta; solo cuenta lo que está escrito.
 

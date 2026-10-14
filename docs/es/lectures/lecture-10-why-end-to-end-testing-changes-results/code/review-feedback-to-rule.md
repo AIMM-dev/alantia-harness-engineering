@@ -1,4 +1,4 @@
-# Ejemplo: Convertir Feedback de Review en una Regla
+# Ejemplo: Convertir Comentarios de revisión en una Regla
 
 Comentario de review repetido:
 

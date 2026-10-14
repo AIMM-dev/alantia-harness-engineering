@@ -1,69 +1,62 @@
-# Loop State Template
+# Plantilla de estado del ciclo
 
-> Every loop should have a state file tracking current progress.
-> Update at the end of each round; read at the start of the next round.
+> Todo ciclo debe registrar su progreso.
+> Actualiza este archivo al terminar una ronda y léelo al empezar la siguiente.
 
-## Basic Info
+## Información básica
 
-- **Loop name**: <!-- e.g. "Unit test completion loop" -->
-- **Started**: 2026-07-09 10:00
-- **Current round**: Round 1 / N total
-- **Current status**: In progress <!-- In progress / Completed / Blocked / Failed -->
-- **Total elapsed**: 0h 0m
+- **Nombre del ciclo:** por completar.
+- **Inicio:** fecha y hora.
+- **Ronda actual:** 1 de N.
+- **Estado:** en curso / completado / bloqueado / fallido.
+- **Tiempo transcurrido:** 0 h 0 min.
 
-## Goal
+## Objetivo
 
-<!-- What this loop is trying to achieve -->
+Describe qué debe lograr el ciclo y dónde se encuentran sus criterios de aceptación.
 
-## Round Log
+## Registro de rondas
 
-### Round 1
+### Ronda 1
 
-- **Started**:
-- **What the Maker did**:
-- **Verification result**: ✅ Pass / ❌ Fail / ⚠️ Partial
-- **Issues found**:
-  -
-- **Next round plan**:
-- **Human intervention needed**: Yes / No
+- **Inicio:**
+- **Trabajo del implementador:**
+- **Resultado de la verificación:** aprobado / fallido / parcial.
+- **Problemas encontrados:**
+- **Plan para la siguiente ronda:**
+- **¿Requiere intervención humana?:** sí / no.
 
-### Round 2
+### Ronda 2
 
-- **Started**:
-- **What the Maker did**:
-- **Verification result**: ✅ Pass / ❌ Fail / ⚠️ Partial
-- **Issues found**:
-  -
-- **Next round plan**:
-- **Human intervention needed**: Yes / No
+- **Inicio:**
+- **Trabajo del implementador:**
+- **Resultado de la verificación:** aprobado / fallido / parcial.
+- **Problemas encontrados:**
+- **Plan para la siguiente ronda:**
+- **¿Requiere intervención humana?:** sí / no.
 
-<!-- Copy the format above and keep adding -->
+Copia este formato para registrar las rondas posteriores.
 
-## Cumulative Stats
+## Estadísticas acumuladas
 
-| Metric | Value |
-|--------|-------|
-| Rounds completed | 0 |
-| Passed rounds | 0 |
-| Failed rounds | 0 |
-| Total issues found | 0 |
-| Human interventions | 0 |
-| Files changed | 0 |
+| Métrica | Valor |
+| --- | --- |
+| Rondas completadas | 0 |
+| Rondas aprobadas | 0 |
+| Rondas fallidas | 0 |
+| Problemas encontrados | 0 |
+| Intervenciones humanas | 0 |
+| Archivos modificados | 0 |
 
-## Blocker List
+## Bloqueos
 
-<!-- Record recurring issues so the next round is aware -->
+Registra los problemas recurrentes y lo que ya se intentó, para que la siguiente ronda no repita los mismos pasos.
 
-- 
+## Resultado final
 
-## Final Result
-
-<!-- Fill in when loop ends -->
-
-- **Final status**: Completed / Failed / Manually stopped
-- **Finished at**:
-- **Summary**:
-  - What was done
-  - How it went
-  - What was learned
-  - How to improve next time
+- **Estado final:** completado / fallido / detenido manualmente.
+- **Fecha y hora de cierre:**
+- **Qué se hizo:**
+- **Qué resultados se comprobaron:**
+- **Qué se aprendió:**
+- **Qué conviene mejorar:**

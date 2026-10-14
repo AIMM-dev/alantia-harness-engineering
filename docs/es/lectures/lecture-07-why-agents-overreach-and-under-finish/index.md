@@ -1,7 +1,5 @@
-[中文版本 →](../../../zh/lectures/lecture-07-why-agents-overreach-and-under-finish/)
-
-> Ejemplos de código: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/es/lectures/lecture-07-why-agents-overreach-and-under-finish/code/)
-> Proyecto práctico: [Project 04. Runtime feedback and scope control](./../../projects/project-04-incremental-indexing/index.md)
+> Ejemplos de código: [code/](https://github.com/AIMM-dev/alantia-harness-engineering/blob/main/docs/es/lectures/lecture-07-why-agents-overreach-and-under-finish/code/)
+> Proyecto práctico: [Proyecto 04. Usa señales de ejecución para corregir el comportamiento](./../../projects/project-04-incremental-indexing/index.md)
 
 # Lección 07. Define límites claros para las tareas del agente
 
@@ -11,7 +9,7 @@ Le dices a Claude Code que "añada autenticación de usuarios a este proyecto," 
 
 Morder más de lo que puedes masticar — este dicho se aplica a los agentes de IA especialmente bien. Los agentes nacen con un impulso de "hacer un poco más" — ven cosas relacionadas y simplemente las manejan de paso, como alguien que va al supermercado por una botella de salsa de soya y sale empujando un carrito lleno. El problema es, los humanos que compran demasiado solo desperdician dinero; los agentes haciendo demasiadas cosas simultáneamente significa que ninguna se hace bien.
 
-El blog de ingeniería de Anthropic "Effective harnesses for long-running agents" establece claramente: cuando los prompts son demasiado amplios, los agentes tienden a "comenzar múltiples cosas a la vez" en lugar de "terminar una cosa primero." Las prácticas de ingeniería de Codex de OpenAI encontraron lo mismo — las tareas sin controles explícitos de alcance ven las tasas de completitud desplomarse. Este no es un problema del modelo — es un problema del harness. No trazaste el límite.
+El blog de ingeniería de Anthropic "Effective harnesses for long-running agentes" establece claramente: cuando los prompts son demasiado amplios, los agentes tienden a "comenzar múltiples cosas a la vez" en lugar de "terminar una cosa primero." Las prácticas de ingeniería de Codex de OpenAI encontraron lo mismo — las tareas sin controles explícitos de alcance ven las tasas de completitud desplomarse. Este no es un problema del modelo — es un problema del harness. No trazaste el límite.
 
 ## La atención es un recurso finito
 
@@ -34,22 +32,22 @@ Seis pasos después, cada uno está a medio hacer. Sin verificación end-to-end,
 
 ```mermaid
 flowchart LR
-    Queue["Feature queue"] --> Pick["Pick exactly one task"]
-    Pick --> Active["Only one active item"]
-    Active --> Verify["Run end-to-end verification"]
-    Verify -->|pass| Commit["Commit and unlock next task"]
-    Verify -->|fail| Active
+    Queue["Cola de funciones"] --> Pick["Elegir una sola tarea"]
+    Pick --> Active["Solo una tarea activa"]
+    Active --> Verify["Ejecutar la verificación end-to-end"]
+    Verify -->|pasa| Commit["Crear un commit y habilitar la siguiente tarea"]
+    Verify -->|falla| Active
     Commit --> Queue
 ```
 
 ```mermaid
 flowchart TB
-    Budget["Available reasoning budget = C"] --> One["WIP = 1<br/>C / 1 per task"]
-    Budget --> Many["WIP = 5<br/>C / 5 per task"]
+    Budget["Presupuesto de razonamiento disponible = C"] --> One["WIP = 1<br/>C / 1 por tarea"]
+    Budget --> Many["WIP = 5<br/>C / 5 por tarea"]
 
-    One --> Finish["One feature reaches passing state"]
-    Many --> Partial["Five partial implementations"]
-    Partial --> VCR["Low verified completion rate<br/>high rework next session"]
+    One --> Finish["Una función alcanza el estado passing"]
+    Many --> Partial["Cinco implementaciones parciales"]
+    Partial --> VCR["Pocas tareas terminadas y verificadas<br/>mucho trabajo que repetir en la siguiente sesión"]
 ```
 
 ## Conceptos clave
@@ -76,10 +74,10 @@ Este es un problema antiguo en el mundo humano también — Steve McConnell docu
 Este es el método más directo y efectivo. En tu harness, dile al agente explícitamente: **solo una tarea tiene permitido estar en estado "active" en cualquier momento.** En el CLAUDE.md de Claude Code o el AGENTS.md de Codex, escribe:
 
 ```
-## Work Rules
-- Work on one feature at a time
-- Only start the next feature after the current one passes end-to-end verification
-- Don't "also refactor" feature B while implementing feature A
+## Reglas de trabajo
+- Trabajar en una función a la vez
+- Comenzar la siguiente función cuando la actual pase la verificación end-to-end
+- No refactorizar también la función B mientras se implementa la función A
 ```
 
 Como comer en un buffet — un plato a la vez, termínalo antes de volver por más.
@@ -89,9 +87,9 @@ Como comer en un buffet — un plato a la vez, termínalo antes de volver por m�
 Terminado no es "el código está escrito" — es "la verificación del comportamiento pasa." En tu feature list, cada entrada necesita un comando de verificación:
 
 ```
-F01: User Registration
-  Verification: curl -X POST /api/register -d '{"email":"test@example.com","password":"123456"}' | jq .status == 201
-  State: passing
+F01: registro de usuario
+  Verificación: curl -X POST /api/register -d '{"email":"test@example.com","password":"123456"}' | jq .status == 201
+  Estado: passing
 ```
 
 ### 3. Externaliza la superficie de alcance
@@ -124,7 +122,7 @@ Resultado: menos código total (800 vs 1200 líneas) pero más código efectivo.
 
 ## Lecturas adicionales
 
-- [Effective harnesses for long-running agents - Anthropic](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) — Blog de ingeniería de Anthropic, discusión detallada de la estrategia de "pequeño siguiente paso"
+- [Effective harnesses for long-running agentes - Anthropic](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) — Blog de ingeniería de Anthropic, discusión detallada de la estrategia de "pequeño siguiente paso"
 - [Harness Engineering - OpenAI](https://openai.com/index/harness-engineering/) — Tratamiento completo de ingeniería de harness de OpenAI
 - [Kanban: Successful Evolutionary Change - David Anderson](https://www.goodreads.com/book/show/1070822.Kanban) — La fuente clásica sobre límites WIP
 - [Rapid Development - Steve McConnell](https://www.goodreads.com/book/show/125171.Rapid_Development) — Datos empíricos sobre el scope creep como principal causa de fracaso de proyectos

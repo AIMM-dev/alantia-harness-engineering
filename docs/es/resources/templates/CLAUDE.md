@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 Estás trabajando en un repositorio diseñado para trabajo de implementación de larga duración.
-Prioriza la completación fiable, la continuidad entre sesiones y la verificación explícita
+Prioriza la completación confiable, la continuidad entre sesiones y la verificación explícita
 sobre la velocidad.
 
 ## Bucle Operacional
@@ -23,7 +23,7 @@ que la verifiques o documentes por qué está bloqueada.
 - Una característica activa a la vez.
 - No afirmes completación sin evidencia ejecutable.
 - No reescribas la lista de características para ocultar trabajo inacabado.
-- No elimines o debilites tests solo para hacer que la tarea parezca completa.
+- No elimines o debilites pruebas solo para hacer que la tarea parezca completa.
 - Usa los artefactos del repositorio como el sistema de registro.
 
 ## Archivos Requeridos

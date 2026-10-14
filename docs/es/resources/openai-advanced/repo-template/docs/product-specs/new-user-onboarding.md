@@ -1,4 +1,4 @@
-# Onboarding de Nuevo Usuario
+# Incorporación de un nuevo usuario
 
 ## Objetivo
 

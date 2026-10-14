@@ -1,5 +1,7 @@
 import DefaultTheme from 'vitepress/theme'
 import './style.css'
+import './alantia.css'
+import AlantiaHome from './AlantiaHome.vue'
 
 let rootEnglishLabel = 'English'
 let mermaidViewer
@@ -12,6 +14,27 @@ let mermaidViewerNaturalWidth = 0
 let mermaidViewerNaturalHeight = 0
 let mermaidViewerFitScale = 1
 let mermaidViewerScale = 1
+let mermaidPreviousFocus
+
+function translateInterfaceLabels() {
+  if (typeof document === 'undefined') return
+  const labels = { 'Main Navigation': 'Navegación principal', 'Sidebar Navigation': 'Temario', 'Page Navigation': 'Navegación de la página', 'On this page': 'En esta página', 'Copy Code': 'Copiar código', 'copy code': 'Copiar código', 'copy-code': 'Copiar código', 'Search': 'Buscar' }
+  for (const element of document.querySelectorAll('[aria-label], [title]')) {
+    for (const attr of ['aria-label', 'title']) {
+      const value = element.getAttribute(attr)
+      if (value === 'mobile navigation') element.setAttribute(attr, 'Abrir menú de navegación')
+      else if (value?.startsWith('Permalink to ')) element.setAttribute(attr, value.replace('Permalink to ', 'Enlace permanente a '))
+      else if (labels[value]) element.setAttribute(attr, labels[value])
+    }
+  }
+  for (const copy of document.querySelectorAll('button.copy')) {
+    if (copy.getAttribute('aria-label') !== 'Copiar código') copy.setAttribute('aria-label', 'Copiar código')
+  }
+  for (const element of document.querySelectorAll('#sidebar-aria-label, #main-nav-aria-label')) {
+    const label = labels[element.textContent.trim()]
+    if (label) element.textContent = label
+  }
+}
 
 function dedupeLocaleMenuLinks() {
   if (typeof document === 'undefined') return
@@ -78,12 +101,12 @@ function ensureMermaidViewer() {
   mermaidViewer.className = 'mermaid-viewer'
   mermaidViewer.innerHTML = `
     <div class="mermaid-viewer__backdrop" data-mermaid-close="true"></div>
-    <div class="mermaid-viewer__panel" role="dialog" aria-modal="true" aria-label="Expanded Mermaid diagram">
+    <div class="mermaid-viewer__panel" role="dialog" aria-modal="true" aria-label="Diagrama ampliado">
       <div class="mermaid-viewer__toolbar">
-        <button type="button" class="mermaid-viewer__tool" aria-label="Zoom out" data-mermaid-action="zoom-out">−</button>
-        <button type="button" class="mermaid-viewer__tool mermaid-viewer__tool--label" aria-label="Reset zoom" data-mermaid-action="reset">100%</button>
-        <button type="button" class="mermaid-viewer__tool" aria-label="Zoom in" data-mermaid-action="zoom-in">+</button>
-        <button type="button" class="mermaid-viewer__close" aria-label="Close diagram" data-mermaid-close="true">×</button>
+        <button type="button" class="mermaid-viewer__tool" aria-label="Alejar" data-mermaid-action="zoom-out">−</button>
+        <button type="button" class="mermaid-viewer__tool mermaid-viewer__tool--label" aria-label="Restablecer escala" data-mermaid-action="reset">100%</button>
+        <button type="button" class="mermaid-viewer__tool" aria-label="Acercar" data-mermaid-action="zoom-in">+</button>
+        <button type="button" class="mermaid-viewer__close" aria-label="Cerrar diagrama" data-mermaid-close="true">×</button>
       </div>
       <div class="mermaid-viewer__body">
         <div class="mermaid-viewer__stage"></div>
@@ -118,6 +141,18 @@ function ensureMermaidViewer() {
   })
 
   document.addEventListener('keydown', (event) => {
+    if (event.key === 'Tab' && mermaidViewer?.classList.contains('is-open')) {
+      const buttons = [...mermaidViewer.querySelectorAll('button')]
+      const first = buttons[0]
+      const last = buttons[buttons.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last?.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first?.focus()
+      }
+    }
     if (event.key === 'Escape' && mermaidViewer?.classList.contains('is-open')) {
       closeMermaidViewer()
     } else if ((event.key === '+' || event.key === '=') && mermaidViewer?.classList.contains('is-open')) {
@@ -208,6 +243,7 @@ function openMermaidViewer(diagram) {
 
   const svg = diagram.querySelector('svg')
   if (!svg) return
+  mermaidPreviousFocus = document.activeElement
 
   if (mermaidViewerUrl) {
     URL.revokeObjectURL(mermaidViewerUrl)
@@ -222,7 +258,7 @@ function openMermaidViewer(diagram) {
 
   const image = document.createElement('img')
   image.className = 'mermaid-viewer__image'
-  image.alt = 'Expanded Mermaid diagram'
+  image.alt = 'Diagrama ampliado'
   image.src = mermaidViewerUrl
   image.addEventListener('load', () => {
     mermaidViewerNaturalWidth = serialized.width
@@ -238,6 +274,7 @@ function openMermaidViewer(diagram) {
   mermaidViewerStage.replaceChildren(image)
   mermaidViewer.classList.add('is-open')
   document.documentElement.classList.add('has-mermaid-viewer')
+  mermaidViewer.querySelector('.mermaid-viewer__close')?.focus()
 }
 
 function closeMermaidViewer() {
@@ -256,10 +293,13 @@ function closeMermaidViewer() {
   mermaidViewerFitScale = 1
   mermaidViewerScale = 1
   document.documentElement.classList.remove('has-mermaid-viewer')
+  if (mermaidPreviousFocus?.isConnected) mermaidPreviousFocus.focus()
+  mermaidPreviousFocus = undefined
 }
 
 function bindMermaidZoomables(root = document) {
   if (typeof document === 'undefined') return
+  translateInterfaceLabels()
   ensureMermaidViewer()
 
   const diagrams = root.querySelectorAll('.vp-doc .mermaid')
@@ -271,7 +311,7 @@ function bindMermaidZoomables(root = document) {
     diagram.dataset.mermaidZoomBound = 'true'
     diagram.tabIndex = 0
     diagram.setAttribute('role', 'button')
-    diagram.setAttribute('aria-label', 'Open Mermaid diagram in fullscreen')
+    diagram.setAttribute('aria-label', 'Abrir diagrama en pantalla completa')
 
     diagram.addEventListener('click', () => {
       openMermaidViewer(diagram)
@@ -303,13 +343,16 @@ function ensureMermaidObserver() {
 
   mermaidObserver.observe(document.body, {
     childList: true,
-    subtree: true
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['aria-label', 'title']
   })
 }
 
 export default {
   extends: DefaultTheme,
   enhanceApp(ctx) {
+    ctx.app.component('AlantiaHome', AlantiaHome)
     syncRootLocaleLabel(ctx.siteData)
     queueLocaleMenuDedupe()
     queueMermaidBinding()

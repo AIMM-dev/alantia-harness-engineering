@@ -1,9 +1,7 @@
-[中文版本 →](../../../zh/projects/project-01-baseline-vs-minimal-harness/)
+> Lecciones relacionadas: [Lección 01. Un modelo potente no garantiza una ejecución confiable](./../../lectures/lecture-01-why-capable-agents-still-fail/index.md) · [Lección 02. Qué significa realmente harness](./../../lectures/lecture-02-what-a-harness-actually-is/index.md)
+> Archivos de plantilla: [templates/](https://github.com/AIMM-dev/alantia-harness-engineering/blob/main/docs/es/resources/templates/)
 
-> Lecciones relacionadas: [Lección 01. Los modelos fuertes no significan ejecución fiable](./../../lectures/lecture-01-why-capable-agents-still-fail/index.md) · [Lección 02. Qué significa realmente harness](./../../lectures/lecture-02-what-a-harness-actually-is/index.md)
-> Archivos de plantilla: [templates/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/es/resources/templates/)
-
-# Proyecto 01. Solo prompt vs reglas primero: cuánta diferencia produce
+# Proyecto 01. Solo prompts frente a reglas explícitas: cuánta diferencia produce
 
 ## Qué harás
 
@@ -26,11 +24,11 @@ Harness mínimo: `AGENTS.md` + `init.sh` + `feature_list.json`
 
 ## Usa el proyecto incluido
 
-Ruta en el repositorio: [`projects/project-01/`](https://github.com/walkinglabs/learn-harness-engineering/tree/main/projects/project-01)
+Ruta en el repositorio: [`projects/project-01/`](https://github.com/AIMM-dev/alantia-harness-engineering/tree/main/projects/project-01)
 
 | Directorio | Qué contiene | Cómo usarlo |
 |------|------|------|
-| [`starter/`](https://github.com/walkinglabs/learn-harness-engineering/tree/main/projects/project-01/starter) | Ejecución con harness débil. Solo tiene [`task-prompt.md`](https://github.com/walkinglabs/learn-harness-engineering/blob/main/projects/project-01/starter/task-prompt.md) como descripción de tarea y no incluye `AGENTS.md` ni `feature_list.json`. | Entrega el prompt a tu agente y mide qué completa sin estructura adicional. |
-| [`solution/`](https://github.com/walkinglabs/learn-harness-engineering/tree/main/projects/project-01/solution) | El mismo slice del producto con artefactos de harness explícitos: [`AGENTS.md`](https://github.com/walkinglabs/learn-harness-engineering/blob/main/projects/project-01/solution/AGENTS.md), [`CLAUDE.md`](https://github.com/walkinglabs/learn-harness-engineering/blob/main/projects/project-01/solution/CLAUDE.md), [`init.sh`](https://github.com/walkinglabs/learn-harness-engineering/blob/main/projects/project-01/solution/init.sh), [`feature_list.json`](https://github.com/walkinglabs/learn-harness-engineering/blob/main/projects/project-01/solution/feature_list.json) y [`claude-progress.md`](https://github.com/walkinglabs/learn-harness-engineering/blob/main/projects/project-01/solution/claude-progress.md). | Compara cómo las reglas y la verificación convierten la misma tarea en algo ejecutable y comprobable. |
+| [`starter/`](https://github.com/AIMM-dev/alantia-harness-engineering/tree/main/projects/project-01/starter) | Ejecución con harness débil. Solo tiene [`task-prompt.md`](https://github.com/AIMM-dev/alantia-harness-engineering/blob/main/projects/project-01/starter/task-prompt.md) como descripción de tarea y no incluye `AGENTS.md` ni `feature_list.json`. | Entrega el prompt a tu agente y mide qué completa sin estructura adicional. |
+| [`solution/`](https://github.com/AIMM-dev/alantia-harness-engineering/tree/main/projects/project-01/solution) | El mismo slice del producto con artefactos de harness explícitos: [`AGENTS.md`](https://github.com/AIMM-dev/alantia-harness-engineering/blob/main/projects/project-01/solution/AGENTS.md), [`CLAUDE.md`](https://github.com/AIMM-dev/alantia-harness-engineering/blob/main/projects/project-01/solution/CLAUDE.md), [`init.sh`](https://github.com/AIMM-dev/alantia-harness-engineering/blob/main/projects/project-01/solution/init.sh), [`feature_list.json`](https://github.com/AIMM-dev/alantia-harness-engineering/blob/main/projects/project-01/solution/feature_list.json) y [`claude-progress.md`](https://github.com/AIMM-dev/alantia-harness-engineering/blob/main/projects/project-01/solution/claude-progress.md). | Compara cómo las reglas y la verificación convierten la misma tarea en algo ejecutable y comprobable. |
 
 Las cuatro funciones concretas son: lanzar la ventana, lista de documentos, panel de preguntas y respuestas, y creación del directorio de datos local. Consulta `solution/feature_list.json` para ver la evidencia esperada de cada función.

@@ -101,8 +101,8 @@ async function buildLanguagePdf(
 ) {
   const pages = await discoverCoursePages(language)
   const tempLanguageDir = path.join(tempRoot, language)
-  const outputPdf = path.join(pdfOutputRoot, `learn-harness-engineering-${language}.pdf`)
-  const manifestPath = path.join(pdfOutputRoot, `learn-harness-engineering-${language}.json`)
+  const outputPdf = path.join(pdfOutputRoot, `alantia-harness-engineering-${language}.pdf`)
+  const manifestPath = path.join(pdfOutputRoot, `alantia-harness-engineering-${language}.json`)
 
   await fs.rm(tempLanguageDir, { recursive: true, force: true })
   await ensureDirectory(tempLanguageDir)
@@ -180,7 +180,7 @@ async function renderCoverPage(
 ) {
   const page = await context.newPage()
   const generatedAt = new Date().toISOString().slice(0, 10)
-  const languageLabel = language === 'en' ? 'English' : '简体中文'
+  const languageLabel = 'Español'
   const contents = manifest
     .map(
       (entry) =>
@@ -196,8 +196,8 @@ async function renderCoverPage(
           <style>
             body {
               margin: 48px;
-              font-family: Georgia, "Times New Roman", serif;
-              color: #1a1a1a;
+              font-family: Inter, Arial, sans-serif;
+              color: #041a47;
             }
             h1 {
               margin: 0 0 8px;
@@ -229,9 +229,9 @@ async function renderCoverPage(
           </style>
         </head>
         <body>
-          <h1>Learn Harness Engineering</h1>
-          <p class="meta">${languageLabel} coursebook PDF · generated ${generatedAt}</p>
-          <h2>Included sections</h2>
+          <h1>Harness Engineering · Alantia.ai</h1>
+          <p class="meta">${languageLabel} · Material del curso · Generado el ${generatedAt}</p>
+          <h2>Contenido</h2>
           <ol>${contents}</ol>
         </body>
       </html>`,
@@ -270,11 +270,11 @@ async function mergePdfs(inputPaths: string[], outputPath: string) {
 function parseRequestedLanguages(args: string[]): Language[] {
   const languageIndex = args.findIndex((arg) => arg === '--lang')
   if (languageIndex === -1) {
-    return ['en', 'zh']
+    return ['es']
   }
 
   const value = args[languageIndex + 1]
-  if (value === 'en' || value === 'zh') {
+  if (value === 'es') {
     return [value]
   }
 

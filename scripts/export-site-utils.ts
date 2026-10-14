@@ -3,7 +3,7 @@ import path from 'node:path'
 import { existsSync } from 'node:fs'
 import { promises as fs } from 'node:fs'
 
-export type Language = 'en' | 'zh'
+export type Language = 'es'
 
 export type CoursePage = {
   filePath: string
@@ -24,7 +24,7 @@ export const artifactsRoot = path.resolve(repoRoot, 'artifacts')
 export const pdfOutputRoot = path.resolve(artifactsRoot, 'pdfs')
 export const readmeScreenshotsRoot = path.resolve(docsRoot, 'public/screenshots/readme')
 export const docsBasePath = normalizeBasePath(
-  process.env.DOCS_BASE_PATH || '/learn-harness-engineering/'
+  process.env.DOCS_BASE_PATH || '/alantia-harness-engineering/'
 )
 
 const MIME_TYPES: Record<string, string> = {
@@ -44,27 +44,9 @@ const MIME_TYPES: Record<string, string> = {
 }
 
 export const readmeScreenshotTargets: ScreenshotTarget[] = [
-  { language: 'en', routePath: '/en/', outputName: 'en-home.png' },
-  {
-    language: 'en',
-    routePath: '/en/lectures/lecture-01-why-capable-agents-still-fail/',
-    outputName: 'en-lecture-01.png'
-  },
-  { language: 'en', routePath: '/en/resources/', outputName: 'en-resources.png' },
-  { language: 'zh', routePath: '/zh/', outputName: 'zh-home.png' },
-  {
-    language: 'zh',
-    routePath: '/zh/lectures/lecture-01-why-capable-agents-still-fail/',
-    outputName: 'zh-lecture-01.png'
-  },
-  { language: 'zh', routePath: '/zh/resources/', outputName: 'zh-resources.png' },
-  { language: 'uk', routePath: '/uk/', outputName: 'uk-home.png' },
-  {
-    language: 'uk',
-    routePath: '/uk/lectures/lecture-01-why-capable-agents-still-fail/',
-    outputName: 'uk-lecture-01.png'
-  },
-  { language: 'uk', routePath: '/uk/resources/', outputName: 'uk-resources.png' }
+ {language:'es',routePath:'/es/',outputName:'es-home.png'},
+ {language:'es',routePath:'/es/lectures/lecture-01-why-capable-agents-still-fail/',outputName:'es-lecture-01.png'},
+ {language:'es',routePath:'/es/resources/',outputName:'es-resources.png'}
 ]
 
 export async function ensureDirectory(targetPath: string) {

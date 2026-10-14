@@ -1,13 +1,11 @@
-[中文版本 →](../../../zh/lectures/lecture-11-why-observability-belongs-inside-the-harness/)
-
-> Ejemplos de código: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/es/lectures/lecture-11-why-observability-belongs-inside-the-harness/code/)
-> Proyecto práctico: [Proyecto 06. Harness completo (capstone)](./../../projects/project-06-runtime-observability-and-debugging/index.md)
+> Ejemplos de código: [code/](https://github.com/AIMM-dev/alantia-harness-engineering/blob/main/docs/es/lectures/lecture-11-why-observability-belongs-inside-the-harness/code/)
+> Proyecto práctico: [Proyecto 06. Construye un harness completo](./../../projects/project-06-runtime-observability-and-debugging/index.md)
 
 # Lección 11. Haz observable el runtime del agente
 
 ## Qué problema resuelve esta lección
 
-Le pides a un agente que implemente una función. Corre durante 20 minutos, modifica muchos archivos y luego dice: "terminado, pero fallan dos tests". Preguntas por qué fallan: "no estoy seguro, quizá sea un problema de timing". Preguntas qué rutas críticas cambió: "déjame mirar el código...".
+Le pides a un agente que implemente una función. Corre durante 20 minutos, modifica muchos archivos y luego dice: "terminado, pero fallan dos pruebas". Preguntas por qué fallan: "no estoy seguro, quizá sea un problema de timing". Preguntas qué rutas críticas cambió: "déjame mirar el código...".
 
 No se trata de que al agente le falte capacidad. El problema es que tu harness no proporciona suficiente observabilidad. **Sin observabilidad, los agentes toman decisiones bajo incertidumbre, las evaluaciones se vuelven juicios subjetivos y los reintentos son tanteos a ciegas.** Tanto OpenAI como Anthropic tratan la fiabilidad como un problema de evidencia: el harness debe exponer el comportamiento en runtime y las señales de evaluación de una forma que guíe la siguiente decisión.
 
@@ -24,12 +22,12 @@ No se trata de que al agente le falte capacidad. El problema es que tu harness n
 
 ```mermaid
 flowchart LR
-    Contract["Escribir primero la tarea<br/>qué cambiar / qué no cambiar / criterios de aprobación"] --> Generator["Generator"]
-    Generator --> Signals["Recoger logs, trazas<br/>y health checks durante la ejecución"]
-    Contract --> Review["Revisar el resultado punto por punto<br/>comportamiento / tests / límites"]
+    Contract["Escribir primero la tarea<br/>qué cambiar / qué no cambiar / criterios de aprobación"] --> Generador["Generador"]
+    Generador --> Signals["Recoger logs, trazas<br/>y comprobaciones de estado durante la ejecución"]
+    Contract --> Review["Revisar el resultado punto por punto<br/>comportamiento / pruebas / límites"]
     Signals --> Review
-    Review --> Verdict["Señalar el check fallido<br/>y dónde corregirlo"]
-    Verdict --> Generator
+    Review --> Verdict["Señalar la comprobación fallida<br/>y dónde corregirlo"]
+    Verdict --> Generador
 ```
 
 ## Ejemplo didáctico
@@ -50,7 +48,7 @@ Registra progreso y verificación en archivos versionados para que la siguiente 
 
 ### Un escenario realista con Claude Code
 
-Imagina un harness con workflow de tres roles, planner-generator-evaluator, ejecutando la tarea "añadir dark mode a la app".
+Imagina un harness con flujo de trabajo de tres roles, planner-generator-evaluator, ejecutando la tarea "añadir dark mode a la app".
 
 **Sin observabilidad**: el planner produce una descripción vaga. El generator implementa dark mode con base en esa vaguedad, pero no coincide con las expectativas implícitas del planner. El evaluator rechaza según sus propios estándares implícitos, sin articular qué está mal. El generator reintenta a ciegas. El ciclo se repite 3-4 veces, toma unos 45 minutos y produce algo apenas aceptable.
 
@@ -83,21 +81,21 @@ No dependas de que el agente imprima sus propios logs. El harness debería recog
 Antes de iniciar cada tarea, el generator y el evaluator, que pueden ser invocaciones distintas del mismo agente, negocian un contrato:
 
 ```markdown
-# Sprint Contract: Dark Mode Support
+# Contrato del sprint: modo oscuro
 
-## Scope
-- Modify the theme toggle component
-- Update global CSS variables
-- Add dark mode tests
+## Alcance
+- Modificar el selector de tema
+- Actualizar las variables CSS globales
+- Añadir pruebas del modo oscuro
 
-## Verification Standards
-- Visual regression tests pass for each component
-- Main flow end-to-end tests pass
-- No flash of unstyled content (FOUC)
+## Criterios de verificación
+- Las pruebas de regresión visual pasan en cada componente
+- Las pruebas end-to-end del flujo principal pasan
+- No aparece contenido sin estilos al cargar (FOUC)
 
-## Exclusions
-- Not handling print styles
-- Not handling third-party component dark mode
+## Exclusiones
+- No se incluyen estilos de impresión
+- No se incluye el modo oscuro de componentes de terceros
 ```
 
 ### 3. Establecer una rúbrica de evaluación
@@ -105,13 +103,13 @@ Antes de iniciar cada tarea, el generator y el evaluator, que pueden ser invocac
 Convierte "¿está bien o no?" en puntuación cuantificable:
 
 ```markdown
-# Scoring Rubric
+# Rúbrica de evaluación
 
-| Dimension | A | B | C | D |
+| Dimensión | A | B | C | D |
 |-----------|---|---|---|---|
-| Code correctness | All tests pass | Main flow passes | Partial pass | Build fails |
-| Architecture compliance | Fully compliant | Minor deviations | Obvious deviations | Serious violations |
-| Test coverage | Main + edge cases | Main flow only | Only skeleton | No tests |
+| Corrección del código | Todas las pruebas pasan | Pasa el flujo principal | Pasan algunas pruebas | Falla la compilación |
+| Cumplimiento de arquitectura | Cumplimiento completo | Desviaciones menores | Desviaciones evidentes | Incumplimientos graves |
+| Cobertura de pruebas | Flujo principal y casos límite | Solo el flujo principal | Solo la estructura básica | Sin pruebas |
 ```
 
 ### 4. Estandarizar con OpenTelemetry
@@ -122,7 +120,7 @@ Crea una traza para cada sesión de harness, un span para cada tarea y sub-spans
 
 > Ejemplo didáctico: el escenario y sus cifras son supuestos para explicar el mecanismo, no mediciones de un experimento publicado.
 
-Un harness con workflow planner-generator-evaluator ejecuta "añadir soporte de dark mode":
+Un harness con flujo de trabajo planner-generator-evaluator ejecuta "añadir soporte de dark mode":
 
 **Versión no observable**: 3-4 rondas de reintentos ciegos, 45 minutos, resultado apenas aceptable. El evaluator dice "no se siente bien" pero no puede precisar por qué. El generator pierde tiempo en direcciones equivocadas.
 

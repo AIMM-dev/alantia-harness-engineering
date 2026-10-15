@@ -13,3 +13,7 @@ Los logotipos y la marca pertenecen a sus titulares y no quedan relicenciados ba
 Montserrat e Inter se distribuyen bajo SIL Open Font License; las licencias se incluyen en docs/public/fonts/. Montserrat se obtuvo del repositorio oficial google/fonts. Inter se obtuvo de los archivos públicos de alantia.ai.
 
 Las referencias y atribuciones de las lecciones se conservan junto al contenido. Las afirmaciones del material de origen no constituyen una auditoría independiente de los productos citados.
+
+## Imágenes de la portada
+
+Las tres escenas de docs/public/images/ fueron generadas con la herramienta integrada image_gen el 14 de octubre de 2026 para esta adaptación. Son ilustraciones fotorrealistas, no fotografías de personas o instalaciones reales de Alantia. Los originales PNG están en design/originals/ y las instrucciones completas en design/image-prompts.json. Las versiones WebP se optimizan para la web sin modificar la composición, los colores ni los sujetos.

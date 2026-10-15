@@ -21,29 +21,32 @@ const steps = [
         </div>
         <p class="course-details">14 lecciones <span aria-hidden="true">/</span> 8 proyectos prácticos <span aria-hidden="true">/</span> En español</p>
       </div>
-      <aside class="harness-map" aria-label="El ciclo de trabajo de un harness">
-        <div class="map-heading"><span>Un sistema para trabajar mejor</span><span class="map-status" aria-hidden="true"></span></div>
-        <div class="map-context"><span>Contexto y límites</span><code>AGENTS.md</code></div>
-        <div class="map-connector" aria-hidden="true">↓</div>
-        <div class="map-agent"><img :src="withBase('/brand/mark-manual-dark.png')" alt="" width="28" height="28"><div><strong>El agente ejecuta</strong><span>Una tarea, un objetivo claro.</span></div></div>
-        <div class="map-connector" aria-hidden="true">↓</div>
-        <div class="map-check"><span>Verificar con evidencia</span><span class="check-icon" aria-hidden="true">✓</span></div>
-        <div class="map-feedback"><span aria-hidden="true">↳</span> Si falla, corregir y volver a verificar.</div>
-        <div class="map-result"><span>Estado guardado</span><code>Listo para continuar</code></div>
-        <p class="map-caption">La confianza se construye en cada ciclo.</p>
-      </aside>
+      <figure class="course-photo hero-photo">
+        <img :src="withBase('/images/colaboracion-humana.webp')" :srcset="`${withBase('/images/colaboracion-humana-small.webp')} 640w, ${withBase('/images/colaboracion-humana.webp')} 1122w`" sizes="(max-width: 767px) calc(100vw - 48px), 460px" alt="Dos profesionales revisan juntos un flujo de trabajo y su implementación en una computadora." width="1122" height="1402" fetchpriority="high">
+        <figcaption>Las personas definen el rumbo.<br>La tecnología amplifica su capacidad.</figcaption>
+      </figure>
     </section>
 
     <section class="learning-route" aria-labelledby="route-title">
       <div class="section-intro"><h2 id="route-title">De la primera instrucción<br>a un sistema confiable.</h2><p>Avanza en orden o retoma el tema que necesitas. Cada etapa conecta los conceptos con una práctica concreta.</p></div>
-      <ol class="route-list">
-        <li v-for="(step, index) in steps" :key="step.link"><a :href="withBase(step.link)"><span class="route-number">0{{ index + 1 }}</span><div class="route-content"><span class="route-range">{{ step.range }}</span><h3>{{ step.title }}</h3><p>{{ step.text }}</p></div><span class="route-arrow" aria-hidden="true">↗</span></a></li>
-      </ol>
+      <div class="route-layout">
+        <figure class="course-photo route-photo">
+          <img :src="withBase('/images/construccion-del-harness.webp')" :srcset="`${withBase('/images/construccion-del-harness-small.webp')} 640w, ${withBase('/images/construccion-del-harness.webp')} 1122w`" sizes="(max-width: 767px) calc(100vw - 48px), 460px" alt="Una persona programa frente a un monitor con código y un diagrama del flujo de un agente." width="1122" height="1402" loading="lazy" decoding="async">
+          <figcaption>Del diseño del entorno<br>a una ejecución con propósito.</figcaption>
+        </figure>
+        <ol class="route-list">
+          <li v-for="(step, index) in steps" :key="step.link"><a :href="withBase(step.link)"><span class="route-number">0{{ index + 1 }}</span><div class="route-content"><span class="route-range">{{ step.range }}</span><h3>{{ step.title }}</h3><p>{{ step.text }}</p></div><span class="route-arrow" aria-hidden="true">↗</span></a></li>
+        </ol>
+      </div>
     </section>
 
     <section class="practice-section" aria-labelledby="practice-title">
       <div><p class="practice-label">Aprender haciendo</p><h2 id="practice-title">Tu repositorio.<br>Tu próximo paso.</h2><p>Aplica lo aprendido a una base de conocimiento de escritorio. Compara resultados, detecta fallos y mejora el entorno del agente con cada proyecto.</p><a class="course-button primary" :href="withBase('/es/projects/')">Ver los 8 proyectos <span aria-hidden="true">↗</span></a></div>
-      <div class="resource-links">
+      <figure class="course-photo practice-photo">
+        <img :src="withBase('/images/verificacion-con-evidencia.webp')" :srcset="`${withBase('/images/verificacion-con-evidencia-small.webp')} 640w, ${withBase('/images/verificacion-con-evidencia.webp')} 1536w`" sizes="(max-width: 767px) calc(100vw - 48px), 540px" alt="Una ingeniera contrasta un reporte de pruebas en pantalla con sus notas de verificación." width="1536" height="1024" loading="lazy" decoding="async">
+        <figcaption>La confianza se construye<br>con resultados verificables.</figcaption>
+      </figure>
+      <div class="resource-links" aria-label="Recursos para seguir aprendiendo">
         <a :href="withBase('/es/resources/templates/')"><div><h3>Plantillas listas para usar</h3><p>Instrucciones, listas de funciones y registros de sesión.</p></div><span aria-hidden="true">↗</span></a>
         <a :href="withBase('/es/harness-designs/')"><div><h3>Cómo lo hacen otros</h3><p>Analiza los harness de Pi, Claude Code, Codex y DeepSeek.</p></div><span aria-hidden="true">↗</span></a>
         <a :href="withBase('/es/glosario')"><div><h3>Un lenguaje compartido</h3><p>Los términos técnicos que conviene conocer, explicados en español.</p></div><span aria-hidden="true">↗</span></a>

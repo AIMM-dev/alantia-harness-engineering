@@ -133,6 +133,21 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:3px solid 
 .map-connector,.map-check,.map-feedback span{color:#1ad3e6}
 .map-check{border-color:#1ad3e6}
 .learning-route{border-top:0}
+.course-photo{margin:0;overflow:hidden;background:#031d46;color:#fff}
+.course-photo img{display:block;width:100%;height:auto;object-fit:cover}
+.course-photo figcaption{padding:18px 22px;font-size:12px;line-height:1.7;color:#fff;border-top:1px solid #ffffff26}
+.hero-photo img{aspect-ratio:1/1.05;object-position:50% 52%}
+.route-layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr);gap:64px;align-items:start}
+.route-photo img{aspect-ratio:4/5}
+.route-list{grid-template-columns:1fr}
+.route-list a{min-height:0;padding:22px 0}
+.route-list li:last-child{border-bottom:1px solid var(--vp-c-divider)}
+.practice-section{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:36px 48px;align-items:center}
+.practice-photo img{aspect-ratio:3/2}
+.resource-links{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.resource-links>a{border-top:1px solid var(--vp-c-divider);border-bottom:0;padding:24px 0 0}
+@media(min-width:768px) and (max-width:959px){.route-layout{gap:30px;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)}.route-photo img{aspect-ratio:1/1.8}.practice-section{gap:30px}.resource-links{gap:20px}.VPNavBarSearch{flex-grow:0;padding-left:0}.VPNavBarSearch .DocSearch-Button{padding:0;width:40px;min-width:40px;justify-content:center;background:transparent}.VPNavBarSearch .DocSearch-Button-Placeholder,.VPNavBarSearch .DocSearch-Button-Keys{display:none}.VPNavBar .VPNavBarMenu .VPNavBarMenuLink{padding:0 5px}}
+@media(max-width:767px){.course-hero{gap:32px}.hero-photo{max-width:480px;width:100%;margin:auto}.hero-photo img{aspect-ratio:4/3;object-position:50% 58%}.route-layout{grid-template-columns:1fr;gap:30px}.route-photo img{aspect-ratio:16/10;object-position:50% 65%}.practice-section{grid-template-columns:1fr;gap:30px}.practice-photo{margin:0 -24px}.practice-photo img{aspect-ratio:3/2}.resource-links{grid-template-columns:1fr;gap:0}.resource-links>a{padding:22px 0}.course-photo figcaption{padding:16px 20px}}
 .alantia-home h2,.route-content h3{font-weight:600}
 .course-signature{margin-top:44px;padding:52px 24px;background:#011537;color:#fff;text-align:center}
 .course-signature img{width:150px;height:auto;margin:auto;display:block}

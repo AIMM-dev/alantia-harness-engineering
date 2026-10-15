@@ -1,4 +1,4 @@
-# Alantia.ai · Harness Engineering
+# Harness Engineering — Alantia
 
 ## Register
 

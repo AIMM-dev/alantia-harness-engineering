@@ -59,7 +59,7 @@ const esHarnessDesignItems = [
 export default withMermaid(defineConfig({
   base: docsBase,
   lang: 'es-MX',
-  title: 'Harness Engineering · Alantia.ai',
+  title: 'Harness Engineering — Alantia',
   description: 'Aprende a construir agentes de IA confiables: contexto, herramientas, verificación y control. 14 lecciones y 8 proyectos prácticos en español.',
   cleanUrls: true,
   // Evita carreras al crear carpetas durante el renderizado en Windows.
@@ -73,7 +73,7 @@ export default withMermaid(defineConfig({
     ['link', { rel: 'icon', type: 'image/png', href: docsBase + 'brand/mark-manual-light.png' }],
     ['meta', { name: 'theme-color', content: '#031D46' }],
     ['meta', { property: 'og:locale', content: 'es_MX' }],
-    ['meta', { property: 'og:site_name', content: 'Alantia.ai · Harness Engineering' }]
+    ['meta', { property: 'og:site_name', content: 'Harness Engineering — Alantia' }]
   ],
   themeConfig: {
     logo: { light: '/brand/logo-manual-light.png', dark: '/brand/logo-manual-dark.png', alt: 'Alantia.ai' },

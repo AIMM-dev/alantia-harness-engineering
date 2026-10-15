@@ -1,4 +1,5 @@
-name: Build course PDFs and publish release assets
+name: Generar PDF del curso
+run-name: Harness Engineering — Alantia · Material descargable
 
 on:
   workflow_dispatch:

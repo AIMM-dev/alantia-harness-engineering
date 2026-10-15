@@ -1,4 +1,5 @@
 name: Verificar edición Alantia
+run-name: Harness Engineering — Alantia · Verificación
 
 on: [push, pull_request, workflow_dispatch]
 

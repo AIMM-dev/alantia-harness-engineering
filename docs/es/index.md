@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Aprende a construir agentes confiables
+title: Harness Engineering — Alantia
+titleTemplate: false
 ---
 
 <AlantiaHome />

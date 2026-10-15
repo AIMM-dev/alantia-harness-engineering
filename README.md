@@ -1,6 +1,6 @@
 <p align="left"><img src="docs/public/brand/logo-manual-light.png" alt="Alantia.ai" width="180"></p>
 
-# Harness Engineering · Edición Alantia.ai
+# Harness Engineering — Alantia
 
 Aprende a construir agentes de programación confiables. Un curso en español para diseñar el contexto, las herramientas, el estado y la verificación que permiten convertir la capacidad de un modelo en resultados comprobables.
 
